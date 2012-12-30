@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+
+require 'optparse'
+require 'configure-s3-website'
+
+options = {}
+
+banner = <<END
+Usage: #{File.basename(__FILE__)} arguments
+
+Configure your S3 bucket to function as a web site
+
+Arguments:
+END
+
+optparse = OptionParser.new do |opts|
+  opts.banner = banner
+  opts.on('-f', '--config-file FILE',
+          'Pick credentials and the S3 bucket name from a config file') do
+          |yaml_file_path|
+    options[:config_source] = 
+      ConfigureS3Website::FileConfigSource.new yaml_file_path
+  end
+  opts.on('--help', 'Display this screen') do
+    puts opts
+    exit
+  end
+end
+
+optparse.parse!
+
+ConfigureS3Website::S3Client.configure_website(options[:config_source])
