@@ -6,7 +6,7 @@ spec = Gem::Specification.new do |s|
   s.email = 'lauri.lehmijoki@iki.fi'
   s.homepage = 'https://github.com/laurilehmijoki/configure-s3-website'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'Configure your S3 bucket to function as a web site'
+  s.summary = 'Configure your AWS S3 bucket to function as a web site'
   s.bindir = 'bin'
 
   s.add_development_dependency 'rspec', '~> 2.10.0'
