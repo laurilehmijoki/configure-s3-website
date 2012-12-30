@@ -1,5 +1,8 @@
 # Configure-s3-website
 
+[![Build Status](https://secure.travis-ci.org/laurilehmijoki/configure-s3-website.png)](http://travis-ci.org/laurilehmijoki/configure-s3-website)
+[![Gem Version](https://fury-badge.herokuapp.com/rb/configure-s3-website.png)](http://badge.fury.io/rb/configure-s3-website)
+
 Configure an AWS S3 bucket to function as a website. Easily from the
 command-line interface.
 
