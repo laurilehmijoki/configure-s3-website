@@ -15,9 +15,11 @@ website. The bucket may or may not exist. If the bucket does not exist,
 
 Create a file that contains the S3 credentials and the name of the bucket:
 
-    s3_id: your-aws-access-key
-    s3_secret: your-aws-secret-key
-    s3_bucket: name-of-your-bucket
+```yaml
+s3_id: your-aws-access-key
+s3_secret: your-aws-secret-key
+s3_bucket: name-of-your-bucket
+```
 
 Save the file (as *config.yml*, for example). Now you are ready to go. Run the
 following command:
