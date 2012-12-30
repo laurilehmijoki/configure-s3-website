@@ -33,30 +33,34 @@ It calls the [PUT Bucket
 website](http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html)
 API with the following XML:
 
-    <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
-      <IndexDocument>
-        <Suffix>index.html</Suffix>
-      </IndexDocument>
-      <ErrorDocument>
-        <Key>error.html</Key>
-      </ErrorDocument>
-    </WebsiteConfiguration>
+```xml
+<WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
+  <IndexDocument>
+    <Suffix>index.html</Suffix>
+  </IndexDocument>
+  <ErrorDocument>
+    <Key>error.html</Key>
+  </ErrorDocument>
+</WebsiteConfiguration>
+```
 
 Then **it makes all the objects on the bucket visible to the whole world** by
 calling the [PUT Bucket
 policy](http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTpolicy.html)
 API with the following JSON:
 
-    {
-       "Version":"2008-10-17",
-       "Statement":[{
-         "Sid":"PublicReadForGetBucketObjects",
-         "Effect":"Allow",
-         "Principal": { "AWS": "*" },
-         "Action":["s3:GetObject"],
-         "Resource":["arn:aws:s3:::your-bucket-name/*"]
-       }]
-     }
+```json
+{
+  "Version":"2008-10-17",
+  "Statement":[{
+    "Sid":"PublicReadForGetBucketObjects",
+    "Effect":"Allow",
+    "Principal": { "AWS": "*" },
+    "Action":["s3:GetObject"],
+    "Resource":["arn:aws:s3:::your-bucket-name/*"]
+  }]
+}
+```
 
 ## License
 
