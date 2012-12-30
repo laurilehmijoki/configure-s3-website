@@ -69,4 +69,4 @@ API with the following JSON:
 
 ## License
 
-See file LICENSE.
+See the file LICENSE.
