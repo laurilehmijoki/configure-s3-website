@@ -6,8 +6,7 @@
 Configure an AWS S3 bucket to function as a website. Easily from the
 command-line interface.
 
-The Ruby gem `configure-s3-website` can configure an S3 bucket to function as a
-website. The bucket may or may not exist. If the bucket does not exist,
+The bucket may or may not exist. If the bucket does not exist,
 `configure-s3-website` will create it.
 
 ## Install
