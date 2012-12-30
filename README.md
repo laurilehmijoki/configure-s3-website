@@ -64,4 +64,4 @@ API with the following JSON:
 
 ## License
 
-See file LICENSE.md.
+See file LICENSE.
