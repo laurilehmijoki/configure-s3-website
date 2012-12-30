@@ -62,12 +62,13 @@ module ConfigureS3Website
       call_s3_api(
         path = "/#{config_source.s3_bucket_name}",
         method = Net::HTTP::Put,
+        body = '',
         config_source = config_source
       )
       puts "Created bucket #{config_source.s3_bucket_name}"
     end
 
-    def self.call_s3_api(path, method, body = '', config_source)
+    def self.call_s3_api(path, method, body, config_source)
       date = Time.now.strftime("%a, %d %b %Y %H:%M:%S %Z")
       digest = create_digest(path, method, config_source, date)
       url = "https://s3.amazonaws.com#{path}"
