@@ -60,11 +60,16 @@ module ConfigureS3Website
 
     def self.create_bucket(config_source)
       endpoint = Endpoint.new(config_source.s3_endpoint || '')
-      body = %|
-        <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-          <LocationConstraint>#{endpoint.location_constraint}</LocationConstraint>
-        </CreateBucketConfiguration >
-      |
+      body = if endpoint.region == 'US Standard'
+               '' # The standard endpoint does not need a location constraint
+             else
+        %|
+          <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+            <LocationConstraint>#{endpoint.location_constraint}</LocationConstraint>
+          </CreateBucketConfiguration >
+        |
+             end
+
       call_s3_api(
         path = "/#{config_source.s3_bucket_name}",
         method = Net::HTTP::Put,
