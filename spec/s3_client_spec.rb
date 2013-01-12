@@ -12,7 +12,7 @@ describe ConfigureS3Website::S3Client do
       expect {
         extractor = ConfigureS3Website::S3Client.
           send(:create_bucket, config_source)
-      }.to raise_error(KeyError)
+      }.to raise_error(InvalidS3LocationConstraintError)
     end
   end
 end

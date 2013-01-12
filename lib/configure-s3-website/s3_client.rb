@@ -119,6 +119,8 @@ module ConfigureS3Website
     attr_reader :region, :location_constraint
 
     def initialize(location_constraint)
+      raise InvalidS3LocationConstraintError unless
+        location_constraints.has_key?location_constraint
       @region = location_constraints.fetch(location_constraint)[:region]
       @location_constraint = location_constraint
     end
@@ -150,6 +152,9 @@ module ConfigureS3Website
       end
     end
   end
+end
+
+class InvalidS3LocationConstraintError < StandardError
 end
 
 class NoSuchBucketError < StandardError
