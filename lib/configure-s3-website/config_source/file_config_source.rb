@@ -19,6 +19,10 @@ module ConfigureS3Website
       @config['s3_bucket']
     end
 
+    def s3_endpoint
+      @config['s3_endpoint']
+    end
+
     private
 
     def parse_config(yaml_file_path)

@@ -59,13 +59,23 @@ module ConfigureS3Website
     end
 
     def self.create_bucket(config_source)
+      endpoint = Endpoint.new(config_source.s3_endpoint || '')
+      body = %|
+        <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+          <LocationConstraint>#{endpoint.location_constraint}</LocationConstraint>
+        </CreateBucketConfiguration >
+      |
       call_s3_api(
         path = "/#{config_source.s3_bucket_name}",
         method = Net::HTTP::Put,
-        body = '',
+        body = body,
         config_source = config_source
       )
-      puts "Created bucket #{config_source.s3_bucket_name}"
+      puts "Created bucket %s in the %s Region" %
+        [
+          config_source.s3_bucket_name,
+          endpoint.region
+        ]
     end
 
     def self.call_s3_api(path, method, body, config_source)
@@ -103,6 +113,31 @@ module ConfigureS3Website
 end
 
 private
+
+module ConfigureS3Website
+  class Endpoint
+    attr_reader :region, :location_constraint
+
+    def initialize(location_constraint)
+      @region = location_constraints.fetch(location_constraint)[:region]
+      @location_constraint = location_constraint
+    end
+
+    # http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region
+    def location_constraints
+      {
+        ''               => { :region => 'US Standard' },
+        'us-west-2'      => { :region => 'US West (Oregon)' },
+        'us-west-1'      => { :region => 'US West (Northern California)' },
+        'EU'             => { :region => 'EU (Ireland)' },
+        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)' },
+        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)' },
+        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)' },
+        'sa-east-1'      => { :region => 'South America (Sao Paulo)' }
+      }
+    end
+  end
+end
 
 module ConfigureS3Website
   class ErrorParser

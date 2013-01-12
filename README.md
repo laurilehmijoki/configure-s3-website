@@ -31,6 +31,19 @@ following command:
 Congratulations! You now have an S3 bucket that can act as a website server for
 you.
 
+### Specifying a non-standard S3 endpoint
+
+By default, `configure-s3-website` creates the S3 website into the US Standard
+region.
+
+If you want to create the website into another region, add into the
+configuration file a row like this:
+
+    s3_endpoint: EU
+
+The valid *s3_endpoint* values consist of the [S3 location constraint
+values](http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region).
+
 ## How does `configure-s3-website` work?
 
 It calls the [PUT Bucket

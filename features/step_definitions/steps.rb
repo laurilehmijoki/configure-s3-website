@@ -15,6 +15,10 @@ Then /^the output should be$/ do |expected_console_output|
   @console_output.should eq(expected_console_output)
 end
 
+Then /^the output should include$/ do |expected_console_output|
+  @console_output.should include(expected_console_output)
+end
+
 module Kernel
   require 'stringio'
 

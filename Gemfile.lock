@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    configure-s3-website (0.0.1)
+    configure-s3-website (1.0.0)
 
 GEM
   remote: http://rubygems.org/

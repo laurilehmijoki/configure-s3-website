@@ -8,5 +8,8 @@ module ConfigureS3Website
 
     def s3_bucket_name
     end
+
+    def s3_endpoint
+    end
   end
 end
