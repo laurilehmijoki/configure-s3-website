@@ -67,7 +67,7 @@ module ConfigureS3Website
           <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
             <LocationConstraint>#{endpoint.location_constraint}</LocationConstraint>
           </CreateBucketConfiguration >
-        |
+         |
              end
 
       call_s3_api(
