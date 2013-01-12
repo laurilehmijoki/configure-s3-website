@@ -21,7 +21,7 @@ Feature: configure an S3 bucket to function as a website
       Created bucket name-of-a-new-bucket in the US Standard Region
       """
 
-  @bucket-does-not-exist
+  @bucket-does-not-exist-in-tokyo
   Scenario: Create bucket into the Tokyo region
     Given my config file is in "features/support/sample_config_files/endpoint_tokyo.yml"
     When I run the configure-s3-website command

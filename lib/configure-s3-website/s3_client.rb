@@ -79,9 +79,10 @@ module ConfigureS3Website
     end
 
     def self.call_s3_api(path, method, body, config_source)
+      endpoint = Endpoint.new(config_source.s3_endpoint || '')
       date = Time.now.strftime("%a, %d %b %Y %H:%M:%S %Z")
       digest = create_digest(path, method, config_source, date)
-      url = "https://s3.amazonaws.com#{path}"
+      url = "https://#{endpoint.hostname}#{path}"
       uri = URI.parse(url)
       req = method.new(uri.to_s)
       req.initialize_http_header({
@@ -116,26 +117,27 @@ private
 
 module ConfigureS3Website
   class Endpoint
-    attr_reader :region, :location_constraint
+    attr_reader :region, :location_constraint, :hostname
 
     def initialize(location_constraint)
       raise InvalidS3LocationConstraintError unless
         location_constraints.has_key?location_constraint
       @region = location_constraints.fetch(location_constraint)[:region]
+      @hostname = location_constraints.fetch(location_constraint)[:endpoint]
       @location_constraint = location_constraint
     end
 
     # http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region
     def location_constraints
       {
-        ''               => { :region => 'US Standard' },
-        'us-west-2'      => { :region => 'US West (Oregon)' },
-        'us-west-1'      => { :region => 'US West (Northern California)' },
-        'EU'             => { :region => 'EU (Ireland)' },
-        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)' },
-        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)' },
-        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)' },
-        'sa-east-1'      => { :region => 'South America (Sao Paulo)' }
+        ''               => { :region => 'US Standard',                   :endpoint => 's3.amazonaws.com' },
+        'us-west-2'      => { :region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com' },
+        'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com' },
+        'EU'             => { :region => 'EU (Ireland)',                  :endpoint => 's3-eu-west-1.amazonaws.com' },
+        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com' },
+        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com' },
+        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com' },
+        'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com' }
       }
     end
   end

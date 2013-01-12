@@ -7,5 +7,6 @@ end
 
 VCR.cucumber_tags do |t|
   t.tag '@bucket-does-not-exist'
+  t.tag '@bucket-does-not-exist-in-tokyo'
   t.tag '@bucket-exists'
 end
