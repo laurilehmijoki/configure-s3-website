@@ -10,6 +10,7 @@ module ConfigureS3Website
       begin
         enable_website_configuration(config_source)
         make_bucket_readable_to_everyone(config_source)
+        configure_bucket_redirects(config_source)
       rescue NoSuchBucketError
         create_bucket(config_source)
         retry
@@ -56,6 +57,45 @@ module ConfigureS3Website
         config_source = config_source
       )
       puts "Bucket #{config_source.s3_bucket_name} is now readable to the whole world"
+    end
+
+    def self.configure_bucket_redirects(config_source)
+      routing_rules = config_source.routing_rules
+      if routing_rules.is_a?(Array) && routing_rules.any?
+        body = %|
+          <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
+            <IndexDocument>
+              <Suffix>index.html</Suffix>
+            </IndexDocument>
+            <ErrorDocument>
+              <Key>error.html</Key>
+            </ErrorDocument>
+            <RoutingRules>
+        |
+        routing_rules.each do |routing_rule|
+          body << %|
+              <RoutingRule>
+          |
+          body << self.hash_to_api_xml(routing_rule, 7)
+          body << %|
+              </RoutingRule>
+          |
+        end
+        body << %|
+            </RoutingRules>
+          </WebsiteConfiguration>
+        |
+
+        call_s3_api(
+          path = "/#{config_source.s3_bucket_name}/?website",
+          method = Net::HTTP::Put,
+          body = body,
+          config_source = config_source
+        )
+        puts "#{routing_rules.size} redirects configured for #{config_source.s3_bucket_name} bucket"
+      else
+        puts "No redirects to configure for #{config_source.s3_bucket_name} bucket."
+      end
     end
 
     def self.create_bucket(config_source)
@@ -114,6 +154,18 @@ module ConfigureS3Website
       can_string = "#{method_string}\n\n\n#{date}\n#{path}"
       hmac = OpenSSL::HMAC.digest(digest, config_source.s3_secret_access_key, can_string)
       signature = Base64.encode64(hmac).strip
+    end
+
+    def self.hash_to_api_xml(hash={}, indent=0)
+      "".tap do |body|
+        hash.each do |key, value|
+          key_name = key.sub(/^[a-z\d]*/) { $&.capitalize }.gsub(/(?:_|(\/))([a-z\d]*)/) { $2.capitalize }
+          value = value.is_a?(Hash) ? self.hash_to_api_xml(value, indent+1) : value
+          body << "\n"
+          body << " " * indent * 2 # 2-space indentation formatting for xml
+          body << "<#{key_name}>#{value}</#{key_name}>"
+        end
+      end
     end
   end
 end
