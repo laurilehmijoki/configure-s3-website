@@ -79,6 +79,10 @@ API with the following JSON:
 }
 ```
 
+## Development
+
+* This project uses [Semantic Versioning](http://semver.org)
+
 ## License
 
 See the file LICENSE.
