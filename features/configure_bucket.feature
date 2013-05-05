@@ -42,3 +42,16 @@ Feature: configure an S3 bucket to function as a website
       No redirects to configure for name-of-an-existing-bucket bucket
 
       """
+
+  @redirects
+  Scenario: The user wants to configure redirects for the S3 website
+    Given my config file is in "features/support/sample_config_files/redirects.yml"
+    When I run the configure-s3-website command
+    Then the output should be
+      """
+      Created bucket website-with-redirects in the US Standard Region
+      Bucket website-with-redirects now functions as a website
+      Bucket website-with-redirects is now readable to the whole world
+      1 redirects configured for website-with-redirects bucket
+
+      """
