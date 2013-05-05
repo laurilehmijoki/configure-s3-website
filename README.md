@@ -109,6 +109,15 @@ make an additional call to the AWS API.
 
 * This project uses [Semantic Versioning](http://semver.org)
 
+## Credit
+
+Created by Lauri Lehmijoki.
+
+Big thanks to the following contributors (in alphabetical order):
+
+* SlawD
+* Steve Schwartz
+
 ## License
 
 See the file LICENSE.
