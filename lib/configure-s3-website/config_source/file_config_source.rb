@@ -23,6 +23,10 @@ module ConfigureS3Website
       @config['s3_endpoint']
     end
 
+    def routing_rules
+      @config['routing_rules']
+    end
+
     private
 
     def parse_config(yaml_file_path)

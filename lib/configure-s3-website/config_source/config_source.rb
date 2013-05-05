@@ -11,5 +11,8 @@ module ConfigureS3Website
 
     def s3_endpoint
     end
+
+    def routing_rules
+    end
   end
 end
