@@ -9,7 +9,7 @@ Feature: configure an S3 bucket to function as a website
       Created bucket name-of-a-new-bucket in the US Standard Region
       Bucket name-of-a-new-bucket now functions as a website
       Bucket name-of-a-new-bucket is now readable to the whole world
-      No redirects to configure for name-of-a-new-bucket bucket.
+      No redirects to configure for name-of-a-new-bucket bucket
 
       """
 
@@ -39,6 +39,6 @@ Feature: configure an S3 bucket to function as a website
       """
       Bucket name-of-an-existing-bucket now functions as a website
       Bucket name-of-an-existing-bucket is now readable to the whole world
-      No redirects to configure for name-of-an-existing-bucket bucket.
+      No redirects to configure for name-of-an-existing-bucket bucket
 
       """

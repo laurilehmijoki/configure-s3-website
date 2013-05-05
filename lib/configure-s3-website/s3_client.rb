@@ -94,7 +94,7 @@ module ConfigureS3Website
         )
         puts "#{routing_rules.size} redirects configured for #{config_source.s3_bucket_name} bucket"
       else
-        puts "No redirects to configure for #{config_source.s3_bucket_name} bucket."
+        puts "No redirects to configure for #{config_source.s3_bucket_name} bucket"
       end
     end
 
