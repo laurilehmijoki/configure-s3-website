@@ -85,7 +85,7 @@ module ConfigureS3Website
 
     def self.call_s3_api(path, method, body, config_source)
       endpoint = Endpoint.new(config_source.s3_endpoint || '')
-      date = Time.now.strftime("%a, %d %b %Y %H:%M:%S %Z")
+      date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
       digest = create_digest(path, method, config_source, date)
       url = "https://#{endpoint.hostname}#{path}"
       uri = URI.parse(url)
