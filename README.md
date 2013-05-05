@@ -44,6 +44,29 @@ configuration file a row like this:
 The valid *s3_endpoint* values consist of the [S3 location constraint
 values](http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region).
 
+### Configuring redirects
+
+You can configure redirects on your S3 website by adding `routing_rules` into
+the config file.
+
+Here is an example:
+
+````yaml
+routing_rules:
+  - condition:
+      key_prefix_equals: blog/some_path
+    redirect:
+      host_name: blog.example.com
+      replace_key_prefix_with: some_new_path/
+      http_redirect_code: 301
+````
+
+You can use any routing rule property that the [REST
+API](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html)
+supports. All you have to do is to replace the uppercase letter in AWS XML with
+an underscore and an undercase version of the same letter. For example,
+`KeyPrefixEquals` becomes `key_prefix_equals` in the config file.
+
 ## How does `configure-s3-website` work?
 
 It calls the [PUT Bucket
@@ -78,6 +101,9 @@ API with the following JSON:
   }]
 }
 ```
+
+If you define `routing_rules` in the config file, `configure-s3-website` will
+make an additional call to the AWS API.
 
 ## Development
 

@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.2.0
+
+* Support configuring redirects on the S3 website
+
 ## 1.1.2
 
 * Use UTC time when signing requests
