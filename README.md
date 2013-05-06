@@ -73,7 +73,7 @@ bucket on the [S3 console](https://console.aws.amazon.com/s3/home).
 
 ## How does `configure-s3-website` work?
 
-`configure-s3-website` uses the AWS REST API for S3 for creating and modifying
+`configure-s3-website` uses the AWS REST API of S3 for creating and modifying
 the bucket. In brief, it does the following things:
 
 1. Create a bucket for you (if it does not yet exist)
