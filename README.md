@@ -67,6 +67,10 @@ supports. All you have to do is to replace the uppercase letter in AWS XML with
 an underscore and an undercase version of the same letter. For example,
 `KeyPrefixEquals` becomes `key_prefix_equals` in the config file.
 
+Apply the rules by invoking `configure-s3-website --config [your-config-file]`
+on the command-line interface. You can verify the results by looking at your
+bucket on the [S3 console](https://console.aws.amazon.com/s3/home).
+
 ## How does `configure-s3-website` work?
 
 It calls the [PUT Bucket
