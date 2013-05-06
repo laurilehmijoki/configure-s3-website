@@ -73,41 +73,14 @@ bucket on the [S3 console](https://console.aws.amazon.com/s3/home).
 
 ## How does `configure-s3-website` work?
 
-It calls the [PUT Bucket
-website](http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html)
-API with the following XML:
+`configure-s3-website` uses the AWS REST API for S3 for creating and modifying
+the bucket. In brief, it does the following things:
 
-```xml
-<WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
-  <IndexDocument>
-    <Suffix>index.html</Suffix>
-  </IndexDocument>
-  <ErrorDocument>
-    <Key>error.html</Key>
-  </ErrorDocument>
-</WebsiteConfiguration>
-```
-
-Then **it makes all the objects on the bucket visible to the whole world** by
-calling the [PUT Bucket
-policy](http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTpolicy.html)
-API with the following JSON:
-
-```json
-{
-  "Version":"2008-10-17",
-  "Statement":[{
-    "Sid":"PublicReadForGetBucketObjects",
-    "Effect":"Allow",
-    "Principal": { "AWS": "*" },
-    "Action":["s3:GetObject"],
-    "Resource":["arn:aws:s3:::your-bucket-name/*"]
-  }]
-}
-```
-
-If you define `routing_rules` in the config file, `configure-s3-website` will
-make an additional call to the AWS API.
+1. Create a bucket for you (if it does not yet exist)
+2. Add the website configuration on the bucket via the [website REST
+   API](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTwebsite.html)
+3. Make the bucket **readable to the whole world**
+4. Apply the redirect (a.k.a routing) rules on the bucket website
 
 ## Development
 
