@@ -63,6 +63,12 @@ describe ConfigureS3Website::S3Client do
       str.should eq("\n<Key>value</Key>")
     end
 
+    it 'removes underscores and capitalises the following letter' do
+      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
+                                        { 'hello_key' => 'value' })
+      str.should eq("\n<HelloKey>value</HelloKey>")
+    end
+
     it 'can handle hash values as well' do
       str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
                                         { 'key' => { 'subkey' => 'subvalue' } })
