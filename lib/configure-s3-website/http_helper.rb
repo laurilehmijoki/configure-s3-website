@@ -1,0 +1,62 @@
+module ConfigureS3Website
+  class HttpHelper
+    def self.call_s3_api(path, method, body, config_source)
+      endpoint = Endpoint.by_config_source(config_source)
+      date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
+      digest = create_s3_digest(path, method, config_source, date)
+      self.call_api(
+        path, method, body, config_source, endpoint.hostname, digest, date
+      )
+    end
+
+    def self.call_cloudfront_api(path, method, body, config_source)
+      date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
+      digest = create_cloudfront_digest(config_source, date)
+      self.call_api(
+        path, method, body, config_source, 'cloudfront.amazonaws.com', digest, date
+      )
+    end
+
+    private
+
+    def self.call_api(path, method, body, config_source, hostname, digest, date)
+      url = "https://#{hostname}#{path}"
+      uri = URI.parse(url)
+      req = method.new(uri.to_s)
+      req.initialize_http_header({
+        'Date' => date,
+        'Content-Type' => '',
+        'Content-Length' => body.length.to_s,
+        'Authorization' => "AWS %s:%s" % [config_source.s3_access_key_id, digest]
+      })
+      req.body = body
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      res = http.request(req)
+      if res.code.to_i.between? 200, 299
+        res
+      else
+        raise ConfigureS3Website::ErrorParser.create_error res.body
+      end
+    end
+
+    def self.create_s3_digest(path, method, config_source, date)
+      digest = OpenSSL::Digest::Digest.new('sha1')
+      method_string = method.to_s.match(/Net::HTTP::(\w+)/)[1].upcase
+      can_string = "#{method_string}\n\n\n#{date}\n#{path}"
+      hmac = OpenSSL::HMAC.digest(digest, config_source.s3_secret_access_key, can_string)
+      signature = Base64.encode64(hmac).strip
+    end
+
+    def self.create_cloudfront_digest(config_source, date)
+      digest = Base64.encode64(
+        OpenSSL::HMAC.digest(
+          OpenSSL::Digest::Digest.new('sha1'),
+          config_source.s3_secret_access_key,
+          date
+        )
+      ).strip
+    end
+  end
+end
