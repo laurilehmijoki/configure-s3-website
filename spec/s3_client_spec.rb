@@ -49,4 +49,33 @@ describe ConfigureS3Website::S3Client do
                                         config_source)
     end
   end
+
+  context '#hash_to_api_xml' do
+    it 'returns an empty string, if the hash is empty' do
+      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
+                                        { })
+      str.should eq('')
+    end
+
+    it 'capitalises hash keys but not values' do
+      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
+                                        { 'key' => 'value' })
+      str.should eq("\n<Key>value</Key>")
+    end
+
+    it 'can handle hash values as well' do
+      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
+                                        { 'key' => { 'subkey' => 'subvalue' } })
+      str.should eq("\n<Key>\n  <Subkey>subvalue</Subkey></Key>")
+    end
+
+    it 'indents' do
+      str = ConfigureS3Website::S3Client.send(
+        :hash_to_api_xml,
+        { 'key' => { 'subkey' => 'subvalue' } },
+        indent = 1
+      )
+      str.should eq("\n  <Key>\n    <Subkey>subvalue</Subkey></Key>")
+    end
+  end
 end
