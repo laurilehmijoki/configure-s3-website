@@ -147,3 +147,16 @@ Feature: Create CloudFront distribution
           </Distribution>
 
       """
+
+  @bucket-exists
+  Scenario: The user already has CloudFront configured in his configuration file
+    When I run the configure-s3-website command with parameters
+      | option        | value                                                                           |
+      | --config-file | features/support/sample_config_files/config_with_cloudfront_distribution_id.yml |
+    Then the output should be
+      """
+      Bucket name-of-an-existing-bucket now functions as a website
+      Bucket name-of-an-existing-bucket is now readable to the whole world
+      No redirects to configure for name-of-an-existing-bucket bucket
+
+      """

@@ -27,6 +27,10 @@ module ConfigureS3Website
       @config['routing_rules']
     end
 
+    def cloudfront_distribution_id
+      @config['cloudfront_distribution_id']
+    end
+
     private
 
     def parse_config(yaml_file_path)

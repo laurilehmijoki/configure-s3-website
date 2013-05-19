@@ -14,5 +14,8 @@ module ConfigureS3Website
 
     def routing_rules
     end
+
+    def cloudfront_distribution_id
+    end
   end
 end
