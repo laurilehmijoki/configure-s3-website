@@ -31,6 +31,26 @@ following command:
 Congratulations! You now have an S3 bucket that can act as a website server for
 you.
 
+### Deliver your website via CloudFront
+
+`configure-s3-website` can create a CloudFront distribution for you. It will ask
+you whether you want to deliver your website via the CDN. If you answer yes,
+`configure-s3-website` will create a CloudFront distribution that has the
+configured S3 bucket as its origin.
+
+CloudFront can be configured in various ways. However, the distribution created
+by `configure-s3-website` uses sensible defaults for an S3-based website and
+thus saves you the burden of figuring out how to configure CloudFront. For
+example, it assumes that your default root object is *index.html*.
+
+You can see all the settings this gem applies on the new distribution by running
+the command in verbose mode:
+
+    configure-s3-website --config-file config.yml --verbose
+
+If you want to, you can tune the distribution settings on the management console
+at <https://console.aws.amazon.com/cloudfront>.
+
 ### Specifying a non-standard S3 endpoint
 
 By default, `configure-s3-website` creates the S3 website into the US Standard
