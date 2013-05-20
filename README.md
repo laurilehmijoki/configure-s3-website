@@ -109,6 +109,9 @@ the bucket. In brief, it does the following things:
 3. Make the bucket **readable to the whole world**
 4. Apply the redirect (a.k.a routing) rules on the bucket website
 
+In addition, if you instruct `configure-s3-website` to create a CloudFront
+distribution to you, it will call the [CloudFront POST Distribution](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html) API.
+
 ## Development
 
 * This project uses [Semantic Versioning](http://semver.org)
