@@ -10,8 +10,7 @@ module ConfigureS3Website
           options[:config_source] =
             ConfigureS3Website::FileConfigSource.new yaml_file_path
         end
-        opts.on('-v', '--verbose',
-                'Print more stuff') do
+        opts.on('-v', '--verbose', 'Print more stuff') do
           options[:verbose] = true
         end
         opts.on('--help', 'Display this screen') do
@@ -25,8 +24,7 @@ module ConfigureS3Website
     private
 
     def self.banner
-      %|
-Usage: #{File.basename(__FILE__)} arguments
+      %|Usage: #{File.basename(__FILE__)} arguments
 
 Configure your S3 bucket to function as a web site
 
