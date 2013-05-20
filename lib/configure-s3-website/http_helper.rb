@@ -60,3 +60,24 @@ module ConfigureS3Website
     end
   end
 end
+
+private
+
+module ConfigureS3Website
+  class ErrorParser
+    def self.create_error(amazon_error_xml)
+      error_code = amazon_error_xml.delete('\n').match(/<Code>(.*?)<\/Code>/)[1]
+      begin
+        Object.const_get("#{error_code}Error").new
+      rescue NameError
+        GenericError.new(amazon_error_xml)
+      end
+    end
+  end
+end
+
+class GenericError < StandardError
+  def initialize(error_message)
+    super("AWS API call failed:\n#{error_message}")
+  end
+end
