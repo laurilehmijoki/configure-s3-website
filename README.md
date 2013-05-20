@@ -125,6 +125,10 @@ Big thanks to the following contributors (in alphabetical order):
 * SlawD
 * Steve Schwartz
 
+## Supported Ruby versions
+
+The file `.travis.yml` defines the supported Ruby versions.
+
 ## License
 
 See the file LICENSE.
