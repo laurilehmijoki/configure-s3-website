@@ -1,15 +1,8 @@
 require 'rspec'
 
 When /^I run the configure-s3-website command with parameters$/ do |table|
-  from_table = []
-  table.hashes.map do |entry|
-    { entry[:option] => entry[:value] }
-  end.each do |opt|
-    from_table << opt.keys.first
-    from_table << opt.values.first if opt.values.first
-  end
   options, optparse = ConfigureS3Website::CLI.optparse_and_options
-  optparse.parse! from_table
+  optparse.parse! args_array_from_cucumber_table(table)
   @reset = create_reset_config_file_function options[:config_source].description
   @console_output = capture_stdout {
     ConfigureS3Website::Runner.run(options, stub_stdin)
@@ -26,6 +19,17 @@ end
 
 Then /^the output should include$/ do |expected_console_output|
   @console_output.should include(expected_console_output)
+end
+
+def args_array_from_cucumber_table(table)
+  args = []
+  table.hashes.map do |entry|
+    { entry[:option] => entry[:value] }
+  end.each do |opt|
+    args << opt.keys.first
+    args << opt.values.first if opt.values.first
+  end
+  args
 end
 
 def stub_stdin
