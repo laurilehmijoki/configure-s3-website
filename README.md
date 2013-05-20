@@ -36,7 +36,9 @@ you.
 `configure-s3-website` can create a CloudFront distribution for you. It will ask
 you whether you want to deliver your website via the CDN. If you answer yes,
 `configure-s3-website` will create a CloudFront distribution that has the
-configured S3 bucket as its origin.
+configured S3 bucket as its origin. In addition, it will add the entry
+`cloudfront_distribution_id: [id-of-the-new-distribution]` into your
+configuration file.
 
 CloudFront can be configured in various ways. However, the distribution created
 by `configure-s3-website` uses sensible defaults for an S3-based website and

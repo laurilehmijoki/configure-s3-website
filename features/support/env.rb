@@ -16,3 +16,7 @@ After do
   ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
 end
 # End of following from 'aruba/cucumber'
+
+After do
+  @reset.call if @reset
+end

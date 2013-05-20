@@ -20,17 +20,19 @@ module ConfigureS3Website
         body = (distribution_config_xml config_source),
         config_source = config_source
       )
-      print_report response, options
-    end
-
-    def self.print_report(response, options)
-      config_source = options[:config_source]
       response_xml = REXML::Document.new(response.body)
       dist_id = REXML::XPath.first(response_xml, '/Distribution/Id').get_text
+      print_report_on_new_dist response_xml, dist_id, options
+      config_source.cloudfront_distribution_id = dist_id.to_s
+      puts "  Added setting 'cloudfront_distribution_id: #{dist_id}' into #{config_source.description}"
+    end
+
+    def self.print_report_on_new_dist(response_xml, dist_id, options)
+      config_source = options[:config_source]
       domain_name = REXML::XPath.first(response_xml, '/Distribution/DomainName').get_text
       puts "  The distribution #{dist_id} at #{domain_name} now delivers the bucket #{config_source.s3_bucket_name}"
-      puts '  Please allow up to 15 minutes for the distribution to initialise'
-      puts '  For more information on the distribution, see https://console.aws.amazon.com/cloudfront'
+      puts '    Please allow up to 15 minutes for the distribution to initialise'
+      puts '    For more information on the distribution, see https://console.aws.amazon.com/cloudfront'
       if options[:verbose]
         puts '  Below is the response from the CloudFront API:'
         print_verbose(response_xml, left_padding = 4)

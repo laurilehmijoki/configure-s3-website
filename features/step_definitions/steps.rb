@@ -8,9 +8,10 @@ When /^I run the configure-s3-website command with parameters$/ do |table|
     from_table << opt.keys.first
     from_table << opt.values.first if opt.values.first
   end
+  options, optparse = ConfigureS3Website::CLI.optparse_and_options
+  optparse.parse! from_table
+  @reset = create_reset_config_file_function options[:config_source].description
   @console_output = capture_stdout {
-    options, optparse = ConfigureS3Website::CLI.optparse_and_options
-    optparse.parse! from_table
     ConfigureS3Website::Runner.run(options, stub_stdin)
   }
 end
@@ -33,6 +34,17 @@ def stub_stdin
     first_stdin_answer
   }
   stdin
+end
+
+# A function for bringing back the original config file
+# (in case we modified it during the test)
+def create_reset_config_file_function(yaml_file_path)
+  original_contents = File.open(yaml_file_path, 'r').read
+  -> {
+    File.open(yaml_file_path, 'w') { |yaml_file|
+      yaml_file.puts(original_contents)
+    }
+  }
 end
 
 # The first prompt asks "do you want to create a CloudFront distro"

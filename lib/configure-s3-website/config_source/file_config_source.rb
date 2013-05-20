@@ -4,7 +4,12 @@ require 'erb'
 module ConfigureS3Website
   class FileConfigSource < ConfigSource
     def initialize(yaml_file_path)
-      @config = parse_config yaml_file_path
+      @yaml_file_path = yaml_file_path
+      @config = FileConfigSource.parse_config yaml_file_path
+    end
+
+    def description
+      @yaml_file_path
     end
 
     def s3_access_key_id
@@ -31,15 +36,22 @@ module ConfigureS3Website
       @config['cloudfront_distribution_id']
     end
 
+    def cloudfront_distribution_id=(dist_id)
+      @config['cloudfront_distribution_id'] = dist_id
+      File.open(@yaml_file_path, 'w') do |yaml_file|
+        yaml_file.puts @config.to_yaml
+      end
+    end
+
     private
 
-    def parse_config(yaml_file_path)
+    def self.parse_config(yaml_file_path)
       config = YAML.load(ERB.new(File.read(yaml_file_path)).result)
       validate_config(config, yaml_file_path)
       config
     end
 
-    def validate_config(config, yaml_file_path)
+    def self.validate_config(config, yaml_file_path)
       required_keys = %w{s3_id s3_secret s3_bucket}
       missing_keys = required_keys.reject do |key| config.keys.include?key end
       unless missing_keys.empty?

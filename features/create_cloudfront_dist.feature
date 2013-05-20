@@ -13,8 +13,9 @@ Feature: Create CloudFront distribution
       No redirects to configure for website-via-cf bucket
       Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
         The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
-        Please allow up to 15 minutes for the distribution to initialise
-        For more information on the distribution, see https://console.aws.amazon.com/cloudfront
+          Please allow up to 15 minutes for the distribution to initialise
+          For more information on the distribution, see https://console.aws.amazon.com/cloudfront
+        Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist.yml
 
       """
 
@@ -32,8 +33,8 @@ Feature: Create CloudFront distribution
       No redirects to configure for website-via-cf bucket
       Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
         The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
-        Please allow up to 15 minutes for the distribution to initialise
-        For more information on the distribution, see https://console.aws.amazon.com/cloudfront
+          Please allow up to 15 minutes for the distribution to initialise
+          For more information on the distribution, see https://console.aws.amazon.com/cloudfront
         Below is the response from the CloudFront API:
           <?xml version='1.0'?>
           <Distribution xmlns='http://cloudfront.amazonaws.com/doc/2012-07-01/'>
@@ -145,6 +146,7 @@ Feature: Create CloudFront distribution
               </Enabled>
             </DistributionConfig>
           </Distribution>
+        Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist.yml
 
       """
 
