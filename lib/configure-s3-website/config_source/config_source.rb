@@ -1,5 +1,8 @@
 module ConfigureS3Website
   class ConfigSource
+    def description
+    end
+
     def s3_access_key_id
     end
 
@@ -13,6 +16,12 @@ module ConfigureS3Website
     end
 
     def routing_rules
+    end
+
+    def cloudfront_distribution_id
+    end
+
+    def cloudfront_distribution_id=(dist_id)
     end
   end
 end

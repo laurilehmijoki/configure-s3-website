@@ -1,14 +1,16 @@
 require 'rspec'
 
-Given /^my config file is in "(.*?)"$/ do |config_file_path|
-  @config_file_path = config_file_path
+When /^I run the configure-s3-website command with parameters$/ do |table|
+  options, optparse = ConfigureS3Website::CLI.optparse_and_options
+  optparse.parse! args_array_from_cucumber_table(table)
+  @reset = create_reset_config_file_function options[:config_source].description
+  @console_output = capture_stdout {
+    ConfigureS3Website::Runner.run(options, stub_stdin)
+  }
 end
 
-When /^I run the configure-s3-website command$/ do
-  @console_output = capture_stdout {
-    config_source = ConfigureS3Website::FileConfigSource.new(@config_file_path)
-    ConfigureS3Website::S3Client.configure_website(config_source)
-  }
+Given /^I answer 'yes' to 'do you want to use CloudFront'$/ do
+  @first_stdin_answer = 'y'
 end
 
 Then /^the output should be$/ do |expected_console_output|
@@ -17,6 +19,41 @@ end
 
 Then /^the output should include$/ do |expected_console_output|
   @console_output.should include(expected_console_output)
+end
+
+def args_array_from_cucumber_table(table)
+  args = []
+  table.hashes.map do |entry|
+    { entry[:option] => entry[:value] }
+  end.each do |opt|
+    args << opt.keys.first
+    args << opt.values.first if opt.values.first
+  end
+  args
+end
+
+def stub_stdin
+  stdin = stub('std_in')
+  stdin.stub(:gets).and_return {
+    first_stdin_answer
+  }
+  stdin
+end
+
+# A function for bringing back the original config file
+# (in case we modified it during the test)
+def create_reset_config_file_function(yaml_file_path)
+  original_contents = File.open(yaml_file_path, 'r').read
+  -> {
+    File.open(yaml_file_path, 'w') { |yaml_file|
+      yaml_file.puts(original_contents)
+    }
+  }
+end
+
+# The first prompt asks "do you want to create a CloudFront distro"
+def first_stdin_answer
+  @first_stdin_answer || 'n'
 end
 
 module Kernel

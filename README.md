@@ -31,6 +31,33 @@ following command:
 Congratulations! You now have an S3 bucket that can act as a website server for
 you.
 
+### Deliver your website via CloudFront
+
+`configure-s3-website` can create a CloudFront distribution for you. It will ask
+you whether you want to deliver your website via the CDN. If you answer yes,
+`configure-s3-website` will create a CloudFront distribution that has the
+configured S3 bucket as its origin. In addition, it will add the entry
+`cloudfront_distribution_id: [id-of-the-new-distribution]` into your
+configuration file.
+
+CloudFront can be configured in various ways. However, the distribution created
+by `configure-s3-website` uses sensible defaults for an S3-based website and
+thus saves you the burden of figuring out how to configure CloudFront. For
+example, it assumes that your default root object is *index.html*.
+
+You can see all the settings this gem applies on the new distribution by running
+the command in verbose mode:
+
+    configure-s3-website --config-file config.yml --verbose
+
+Note that if you already have the key `cloudfront_distribution_id` in your
+configuration file, `configure-s3-website` will not create a new distribution.
+Conversely, if you remove the `cloudfront_distribution_id` key from the file and
+run `configure-s3-website` again, it will create you a new distribution.
+
+If you want to, you can tune the distribution settings on the management console
+at <https://console.aws.amazon.com/cloudfront>.
+
 ### Specifying a non-standard S3 endpoint
 
 By default, `configure-s3-website` creates the S3 website into the US Standard
@@ -82,6 +109,9 @@ the bucket. In brief, it does the following things:
 3. Make the bucket **readable to the whole world**
 4. Apply the redirect (a.k.a routing) rules on the bucket website
 
+In addition, if you instruct `configure-s3-website` to create a CloudFront
+distribution to you, it will call the [CloudFront POST Distribution](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html) API.
+
 ## Development
 
 * This project uses [Semantic Versioning](http://semver.org)
@@ -94,6 +124,10 @@ Big thanks to the following contributors (in alphabetical order):
 
 * SlawD
 * Steve Schwartz
+
+## Supported Ruby versions
+
+The file `.travis.yml` defines the supported Ruby versions.
 
 ## License
 

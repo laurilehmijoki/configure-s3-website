@@ -23,7 +23,7 @@ describe ConfigureS3Website::S3Client do
     }
 
     it 'calls the S3 api without request body' do
-      ConfigureS3Website::S3Client.should_receive(:call_s3_api).
+      ConfigureS3Website::HttpHelper.should_receive(:call_s3_api).
         with(anything(), anything(), '', anything())
       ConfigureS3Website::S3Client.send(:create_bucket,
                                         config_source)
@@ -38,7 +38,7 @@ describe ConfigureS3Website::S3Client do
     }
 
     it 'calls the S3 api with location constraint XML' do
-      ConfigureS3Website::S3Client.should_receive(:call_s3_api).
+      ConfigureS3Website::HttpHelper.should_receive(:call_s3_api).
         with(anything(), anything(),
         %|
           <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
@@ -47,41 +47,6 @@ describe ConfigureS3Website::S3Client do
          |, anything())
       ConfigureS3Website::S3Client.send(:create_bucket,
                                         config_source)
-    end
-  end
-
-  context '#hash_to_api_xml' do
-    it 'returns an empty string, if the hash is empty' do
-      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
-                                        { })
-      str.should eq('')
-    end
-
-    it 'capitalises hash keys but not values' do
-      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
-                                        { 'key' => 'value' })
-      str.should eq("\n<Key>value</Key>")
-    end
-
-    it 'removes underscores and capitalises the following letter' do
-      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
-                                        { 'hello_key' => 'value' })
-      str.should eq("\n<HelloKey>value</HelloKey>")
-    end
-
-    it 'can handle hash values as well' do
-      str = ConfigureS3Website::S3Client.send(:hash_to_api_xml,
-                                        { 'key' => { 'subkey' => 'subvalue' } })
-      str.should eq("\n<Key>\n  <Subkey>subvalue</Subkey></Key>")
-    end
-
-    it 'indents' do
-      str = ConfigureS3Website::S3Client.send(
-        :hash_to_api_xml,
-        { 'key' => { 'subkey' => 'subvalue' } },
-        indent = 1
-      )
-      str.should eq("\n  <Key>\n    <Subkey>subvalue</Subkey></Key>")
     end
   end
 end

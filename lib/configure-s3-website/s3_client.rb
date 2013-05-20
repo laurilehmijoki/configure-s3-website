@@ -6,7 +6,8 @@ require 'net/https'
 
 module ConfigureS3Website
   class S3Client
-    def self.configure_website(config_source)
+    def self.configure_website(options)
+      config_source = options[:config_source]
       begin
         enable_website_configuration(config_source)
         make_bucket_readable_to_everyone(config_source)
@@ -30,7 +31,7 @@ module ConfigureS3Website
           </ErrorDocument>
         </WebsiteConfiguration>
       |
-      call_s3_api(
+      HttpHelper.call_s3_api(
         path = "/#{config_source.s3_bucket_name}/?website",
         method = Net::HTTP::Put,
         body = body,
@@ -50,7 +51,7 @@ module ConfigureS3Website
           "Resource":["arn:aws:s3:::#{config_source.s3_bucket_name}/*"]
         }]
       }|
-      call_s3_api(
+      HttpHelper.call_s3_api(
         path = "/#{config_source.s3_bucket_name}/?policy",
         method = Net::HTTP::Put,
         body = policy_json,
@@ -76,7 +77,7 @@ module ConfigureS3Website
           body << %|
               <RoutingRule>
           |
-          body << self.hash_to_api_xml(routing_rule, 7)
+          body << XmlHelper.hash_to_api_xml(routing_rule, 7)
           body << %|
               </RoutingRule>
           |
@@ -86,7 +87,7 @@ module ConfigureS3Website
           </WebsiteConfiguration>
         |
 
-        call_s3_api(
+        HttpHelper.call_s3_api(
           path = "/#{config_source.s3_bucket_name}/?website",
           method = Net::HTTP::Put,
           body = body,
@@ -110,7 +111,7 @@ module ConfigureS3Website
          |
              end
 
-      call_s3_api(
+      HttpHelper.call_s3_api(
         path = "/#{config_source.s3_bucket_name}",
         method = Net::HTTP::Put,
         body = body,
@@ -121,51 +122,6 @@ module ConfigureS3Website
           config_source.s3_bucket_name,
           endpoint.region
         ]
-    end
-
-    def self.call_s3_api(path, method, body, config_source)
-      endpoint = Endpoint.new(config_source.s3_endpoint || '')
-      date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
-      digest = create_digest(path, method, config_source, date)
-      url = "https://#{endpoint.hostname}#{path}"
-      uri = URI.parse(url)
-      req = method.new(uri.to_s)
-      req.initialize_http_header({
-        'Date' => date,
-        'Content-Type' => '',
-        'Content-Length' => body.length.to_s,
-        'Authorization' => "AWS %s:%s" % [config_source.s3_access_key_id, digest]
-      })
-      req.body = body
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      res = http.request(req)
-      if res.code.to_i.between? 200, 299
-        res
-      else
-        raise ConfigureS3Website::ErrorParser.create_error res.body
-      end
-    end
-
-    def self.create_digest(path, method, config_source, date)
-      digest = OpenSSL::Digest::Digest.new('sha1')
-      method_string = method.to_s.match(/Net::HTTP::(\w+)/)[1].upcase
-      can_string = "#{method_string}\n\n\n#{date}\n#{path}"
-      hmac = OpenSSL::HMAC.digest(digest, config_source.s3_secret_access_key, can_string)
-      signature = Base64.encode64(hmac).strip
-    end
-
-    def self.hash_to_api_xml(hash={}, indent=0)
-      "".tap do |body|
-        hash.each do |key, value|
-          key_name = key.sub(/^[a-z\d]*/) { $&.capitalize }.gsub(/(?:_|(\/))([a-z\d]*)/) { $2.capitalize }
-          value = value.is_a?(Hash) ? self.hash_to_api_xml(value, indent+1) : value
-          body << "\n"
-          body << " " * indent * 2 # 2-space indentation formatting for xml
-          body << "<#{key_name}>#{value}</#{key_name}>"
-        end
-      end
     end
   end
 end
@@ -197,18 +153,9 @@ module ConfigureS3Website
         'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com' }
       }
     end
-  end
-end
 
-module ConfigureS3Website
-  class ErrorParser
-    def self.create_error(amazon_error_xml)
-      error_code = amazon_error_xml.delete('\n').match(/<Code>(.*?)<\/Code>/)[1]
-      begin
-        Object.const_get("#{error_code}Error").new
-      rescue NameError
-        GenericS3Error.new(amazon_error_xml)
-      end
+    def self.by_config_source(config_source)
+      endpoint = Endpoint.new(config_source.s3_endpoint || '')
     end
   end
 end
@@ -217,10 +164,4 @@ class InvalidS3LocationConstraintError < StandardError
 end
 
 class NoSuchBucketError < StandardError
-end
-
-class GenericS3Error < StandardError
-  def initialize(error_message)
-    super("AWS API call failed:\n#{error_message}")
-  end
 end
