@@ -2,6 +2,11 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.3.0
+
+* Create a CloudFront distro if the user wants to deliver his S3 website via the
+  CDN
+
 ## 1.2.0
 
 * Support configuring redirects on the S3 website
