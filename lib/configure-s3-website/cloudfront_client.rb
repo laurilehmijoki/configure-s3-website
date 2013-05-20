@@ -57,9 +57,7 @@ module ConfigureS3Website
           <Items>
             <Origin>
               <Id>#{origin_id config_source}</Id>
-              <DomainName>
-                #{config_source.s3_bucket_name}.#{Endpoint.by_config_source(config_source).hostname}
-              </DomainName>
+              <DomainName>#{config_source.s3_bucket_name}.#{Endpoint.by_config_source(config_source).hostname}</DomainName>
               <S3OriginConfig>
                 <OriginAccessIdentity></OriginAccessIdentity>
               </S3OriginConfig>
