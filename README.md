@@ -50,6 +50,11 @@ the command in verbose mode:
 
     configure-s3-website --config-file config.yml --verbose
 
+Note that if you already have the key `cloudfront_distribution_id` in your
+configuration file, `configure-s3-website` will not create a new distribution.
+Conversely, if you remove the `cloudfront_distribution_id` key from the file and
+run `configure-s3-website` again, it will create you a new distribution.
+
 If you want to, you can tune the distribution settings on the management console
 at <https://console.aws.amazon.com/cloudfront>.
 
