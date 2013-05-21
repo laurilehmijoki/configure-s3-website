@@ -3,36 +3,77 @@ require "rexml/xpath"
 
 module ConfigureS3Website
   class CloudFrontClient
+    def self.apply_distribution_config(options)
+      config_source = options[:config_source]
+      puts "Detected an existing CloudFront distribution (id #{config_source.cloudfront_distribution_id}) ..."
+
+      # Get caller reference and ETag (will be required by the PUT config resource)
+      response = HttpHelper.call_cloudfront_api(
+        path = "/2012-07-01/distribution/#{config_source.cloudfront_distribution_id}/config",
+        method = Net::HTTP::Get,
+        body = '',
+        config_source
+      )
+      etag = response['ETag']
+      caller_reference = REXML::XPath.first(
+        REXML::Document.new(response.body),
+        '/DistributionConfig/CallerReference'
+      ).get_text.to_s
+
+      # Call the PUT config resource with the caller reference and ETag
+      custom_distribution_config = config_source.cloudfront_distribution_config || {}
+      custom_distribution_config_with_caller_ref = custom_distribution_config.merge({
+        'caller_reference' => caller_reference,
+        'comment' => 'Updated by the configure-s3-website gem'
+      })
+      HttpHelper.call_cloudfront_api(
+        path = "/2012-07-01/distribution/#{options[:config_source].cloudfront_distribution_id}/config",
+        method = Net::HTTP::Put,
+        body = distribution_config_xml(
+          config_source,
+          custom_distribution_config_with_caller_ref
+        ),
+        config_source,
+        headers = { 'If-Match' => etag }
+      )
+
+      # Report
+      unless custom_distribution_config.empty?
+        print_report_on_custom_distribution_config custom_distribution_config
+      end
+    end
+
     def self.create_distribution_if_user_agrees(options, standard_input)
       puts 'Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]'
       case standard_input.gets.chomp
-      when /(y|Y)/ then do_create_distribution options
+      when /(y|Y)/ then create_distribution options
       end
     end
 
     private
 
-    def self.do_create_distribution(options)
+    def self.create_distribution(options)
       config_source = options[:config_source]
       custom_distribution_config = config_source.cloudfront_distribution_config || {}
-      response = HttpHelper.call_cloudfront_api(
-        path = '/2012-07-01/distribution',
-        method = Net::HTTP::Post,
-        body = distribution_config_xml(config_source, custom_distribution_config),
-        config_source = config_source
+      response_xml = REXML::Document.new(
+        HttpHelper.call_cloudfront_api(
+          '/2012-07-01/distribution',
+          Net::HTTP::Post,
+          distribution_config_xml(config_source, custom_distribution_config),
+          config_source
+        ).body
       )
-      unless custom_distribution_config.empty?
-        print_report_on_custom_distribution_config custom_distribution_config
-      end
-      response_xml = REXML::Document.new(response.body)
       dist_id = REXML::XPath.first(response_xml, '/Distribution/Id').get_text
       print_report_on_new_dist response_xml, dist_id, options
       config_source.cloudfront_distribution_id = dist_id.to_s
       puts "  Added setting 'cloudfront_distribution_id: #{dist_id}' into #{config_source.description}"
+      unless custom_distribution_config.empty?
+        print_report_on_custom_distribution_config custom_distribution_config
+      end
     end
 
     def self.print_report_on_custom_distribution_config(custom_distribution_config, left_padding = 4)
-      puts '  Applying custom distribution settings:'
+      puts '  Applied custom distribution settings:'
       puts custom_distribution_config.
         to_yaml.
         to_s.
@@ -60,7 +101,7 @@ module ConfigureS3Website
         gsub(/\s$/, "")
     end
 
-    def self.distribution_config_xml(config_source, custom_cf_settings = {})
+    def self.distribution_config_xml(config_source, custom_cf_settings)
       %|
       <DistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/">
         <Origins>
@@ -85,6 +126,10 @@ module ConfigureS3Website
       |
     end
 
+    # Changing these default settings probably necessitates a
+    # backward incompatible release.
+    #
+    # If you change these settings, remember to update also the README.md.
     def self.default_cloudfront_settings(config_source)
       {
         'caller_reference' => 'configure-s3-website gem ' + Time.now.to_s,
@@ -113,7 +158,7 @@ module ConfigureS3Website
             }
           },
           'viewer_protocol_policy' => 'allow-all',
-          'min_TTL' => (60 * 60 * 24)
+          'min_TTL' => '86400'
         },
         'cache_behaviors' => {
           'quantity' => '0'

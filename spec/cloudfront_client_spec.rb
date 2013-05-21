@@ -54,7 +54,8 @@ describe ConfigureS3Website::CloudFrontClient do
         REXML::Document.new(
           ConfigureS3Website::CloudFrontClient.send(
             :distribution_config_xml,
-            config_source
+            config_source,
+            custom_distribution_config = {}
           )
         )
       }

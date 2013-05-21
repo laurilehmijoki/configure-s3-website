@@ -3,7 +3,8 @@ require 'rspec'
 When /^I run the configure-s3-website command with parameters$/ do |table|
   options, optparse = ConfigureS3Website::CLI.optparse_and_options
   optparse.parse! args_array_from_cucumber_table(table)
-  @reset = create_reset_config_file_function options[:config_source].description
+  @config_source = options[:config_source]
+  @reset = create_reset_config_file_function @config_source.description
   @console_output = capture_stdout {
     ConfigureS3Website::Runner.run(options, stub_stdin)
   }
@@ -19,6 +20,13 @@ end
 
 Then /^the output should include$/ do |expected_console_output|
   @console_output.should include(expected_console_output)
+end
+
+Then /^the config file should contain the distribution id$/ do
+  config_file_path = @config_source.description
+  File.open(config_file_path, 'r').read.should include(
+    "cloudfront_distribution_id: #{@config_source.cloudfront_distribution_id}"
+  )
 end
 
 def args_array_from_cucumber_table(table)
