@@ -226,7 +226,9 @@ Big thanks to the following contributors (in alphabetical order):
 
 ## Supported Ruby versions
 
-The file `.travis.yml` defines the supported Ruby versions.
+The file `.travis.yml` defines the officially supported Ruby versions. This gem
+might work on other versions as well, but they are not covered with continuous
+integration.
 
 ## License
 
