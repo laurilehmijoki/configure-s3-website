@@ -14,17 +14,30 @@ module ConfigureS3Website
 
     def self.do_create_distribution(options)
       config_source = options[:config_source]
+      custom_distribution_config = config_source.cloudfront_distribution_config || {}
       response = HttpHelper.call_cloudfront_api(
         path = '/2012-07-01/distribution',
         method = Net::HTTP::Post,
-        body = (distribution_config_xml config_source),
+        body = distribution_config_xml(config_source, custom_distribution_config),
         config_source = config_source
       )
+      unless custom_distribution_config.empty?
+        print_report_on_custom_distribution_config custom_distribution_config
+      end
       response_xml = REXML::Document.new(response.body)
       dist_id = REXML::XPath.first(response_xml, '/Distribution/Id').get_text
       print_report_on_new_dist response_xml, dist_id, options
       config_source.cloudfront_distribution_id = dist_id.to_s
       puts "  Added setting 'cloudfront_distribution_id: #{dist_id}' into #{config_source.description}"
+    end
+
+    def self.print_report_on_custom_distribution_config(custom_distribution_config, left_padding = 4)
+      puts '  Applying custom distribution settings:'
+      puts custom_distribution_config.
+        to_yaml.
+        to_s.
+        gsub("---\n", '').
+        gsub(/^/, padding(left_padding))
     end
 
     def self.print_report_on_new_dist(response_xml, dist_id, options)
@@ -35,17 +48,15 @@ module ConfigureS3Website
       puts '    For more information on the distribution, see https://console.aws.amazon.com/cloudfront'
       if options[:verbose]
         puts '  Below is the response from the CloudFront API:'
-        print_verbose(response_xml, left_padding = 4)
+        print_verbose_response_from_cloudfront(response_xml)
       end
     end
 
-    def self.print_verbose(response_xml, left_padding)
+    def self.print_verbose_response_from_cloudfront(response_xml, left_padding = 4)
       lines = []
       response_xml.write(lines, 2)
-      padding = ""
-      left_padding.times { padding << " " }
       puts lines.join().
-        gsub(/^/, "" + padding).
+        gsub(/^/, "" + padding(left_padding)).
         gsub(/\s$/, "")
     end
 
@@ -65,9 +76,10 @@ module ConfigureS3Website
           </Items>
         </Origins>
         #{
-          XmlHelper.hash_to_api_xml(
-            default_cloudfront_settings(config_source).merge custom_cf_settings
-          )
+          require 'deep_merge'
+          settings = default_cloudfront_settings config_source
+          settings.deep_merge! custom_cf_settings
+          XmlHelper.hash_to_api_xml(settings)
         }
       </DistributionConfig>
       |
@@ -112,6 +124,12 @@ module ConfigureS3Website
 
     def self.origin_id(config_source)
       "#{config_source.s3_bucket_name}-S3-origin"
+    end
+
+    def self.padding(amount)
+      padding = ''
+      amount.times { padding << " " }
+      padding
     end
   end
 end
