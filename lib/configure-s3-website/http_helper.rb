@@ -5,21 +5,34 @@ module ConfigureS3Website
       date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
       digest = create_s3_digest(path, method, config_source, date)
       self.call_api(
-        path, method, body, config_source, endpoint.hostname, digest, date
+        path,
+        method,
+        body,
+        config_source,
+        endpoint.hostname,
+        digest,
+        date
       )
     end
 
-    def self.call_cloudfront_api(path, method, body, config_source)
+    def self.call_cloudfront_api(path, method, body, config_source, headers = {})
       date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S %Z")
       digest = create_cloudfront_digest(config_source, date)
       self.call_api(
-        path, method, body, config_source, 'cloudfront.amazonaws.com', digest, date
+        path,
+        method,
+        body,
+        config_source,
+        'cloudfront.amazonaws.com',
+        digest,
+        date,
+        headers
       )
     end
 
     private
 
-    def self.call_api(path, method, body, config_source, hostname, digest, date)
+    def self.call_api(path, method, body, config_source, hostname, digest, date, additional_headers = {})
       url = "https://#{hostname}#{path}"
       uri = URI.parse(url)
       req = method.new(uri.to_s)
@@ -28,9 +41,10 @@ module ConfigureS3Website
         'Content-Type' => '',
         'Content-Length' => body.length.to_s,
         'Authorization' => "AWS %s:%s" % [config_source.s3_access_key_id, digest]
-      })
+      }.merge(additional_headers))
       req.body = body
       http = Net::HTTP.new(uri.host, uri.port)
+      # http.set_debug_output $stderr
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       res = http.request(req)

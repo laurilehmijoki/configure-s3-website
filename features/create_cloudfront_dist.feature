@@ -1,4 +1,4 @@
-Feature: Create CloudFront distribution
+Feature: Create a CloudFront distribution
 
   @create-cf-dist
   Scenario: The user wants to deliver his website via CloudFront
@@ -18,6 +18,31 @@ Feature: Create CloudFront distribution
         Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist.yml
 
       """
+    And the config file should contain the distribution id
+
+  @create-cf-dist
+  Scenario: The user wants create a CloudFront distribution with his own settings
+    Given I answer 'yes' to 'do you want to use CloudFront'
+    When I run the configure-s3-website command with parameters
+      | option        | value                                                                       |
+      | --config-file | features/support/sample_config_files/create_cf_dist_with_custom_configs.yml |
+    Then the output should be
+      """
+      Bucket website-via-cf now functions as a website
+      Bucket website-via-cf is now readable to the whole world
+      No redirects to configure for website-via-cf bucket
+      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
+          Please allow up to 15 minutes for the distribution to initialise
+          For more information on the distribution, see https://console.aws.amazon.com/cloudfront
+        Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist_with_custom_configs.yml
+        Applied custom distribution settings:
+          default_cache_behavior:
+            min_TTL: 600
+          default_root_object: index.json
+
+      """
+    And the config file should contain the distribution id
 
   @create-cf-dist
   Scenario: The user wants to deliver his website via CloudFront and see details on the new distribution
@@ -149,6 +174,7 @@ Feature: Create CloudFront distribution
         Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist.yml
 
       """
+    And the config file should contain the distribution id
 
   @bucket-exists
   Scenario: The user already has CloudFront configured in his configuration file

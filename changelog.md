@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.4.0
+
+* Allow the user to store his CloudFront settings in the config file
+ * Support updating configs of an existing CloudFront distribution
+ * Support creating of new distros with custom CloudFront configs
+
 ## 1.3.0
 
 * Create a CloudFront distro if the user wants to deliver his S3 website via the

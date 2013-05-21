@@ -32,6 +32,10 @@ module ConfigureS3Website
       @config['routing_rules']
     end
 
+    def cloudfront_distribution_config
+      @config['cloudfront_distribution_config']
+    end
+
     def cloudfront_distribution_id
       @config['cloudfront_distribution_id']
     end

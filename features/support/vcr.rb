@@ -11,4 +11,5 @@ VCR.cucumber_tags do |t|
   t.tag '@bucket-exists'
   t.tag '@redirects'
   t.tag '@create-cf-dist'
+  t.tag '@apply-configs-on-cf-dist'
 end
