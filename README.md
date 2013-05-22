@@ -69,7 +69,10 @@ file. For example:
 cloudfront_distribution_config:
   default_cache_behavior:
     min_TTL: 600
-  default_root_object: index.json
+  aliases:
+    quantity: 1
+    items:
+      CNAME: your.domain.net
 ```
 
 See the section below for more information about the valid values of the
