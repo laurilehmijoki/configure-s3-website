@@ -9,6 +9,8 @@ command-line interface.
 The bucket may or may not exist. If the bucket does not exist,
 `configure-s3-website` will create it.
 
+For deploying websites to S3, consider using [s3_website](https://github.com/laurilehmijoki/s3_website).
+
 ## Install
 
     gem install configure-s3-website
