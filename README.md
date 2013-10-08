@@ -173,6 +173,19 @@ configuration file a row like this:
 The valid *s3_endpoint* values consist of the [S3 location constraint
 values](http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region).
 
+
+### Specifying non-standard index or error documents
+
+By default, `configure-s3-website` uses `index.html` for the index document and `error.html` for the error document.
+
+You can override either or both of these defaults like this:
+
+    index_document: default.html
+    error_document: 404.html
+
+You can specify the name of any document in the bucket.
+
+
 ### Configuring redirects
 
 You can configure redirects on your S3 website by adding `routing_rules` into
