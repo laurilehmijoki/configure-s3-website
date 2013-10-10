@@ -27,7 +27,7 @@ module ConfigureS3Website
             <Suffix>#{config_source.index_document || "index.html"}</Suffix>
           </IndexDocument>
           <ErrorDocument>
-            <Key>#{config_source.error_document_name || "error.html"}</Key>
+            <Key>#{config_source.error_document || "error.html"}</Key>
           </ErrorDocument>
         </WebsiteConfiguration>
       |
@@ -69,7 +69,7 @@ module ConfigureS3Website
               <Suffix>#{config_source.index_document || "index.html"}</Suffix>
             </IndexDocument>
             <ErrorDocument>
-              <Key>#{config_source.error_document_name || "error.html"}</Key>
+              <Key>#{config_source.error_document || "error.html"}</Key>
             </ErrorDocument>
             <RoutingRules>
         |

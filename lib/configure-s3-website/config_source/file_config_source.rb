@@ -36,8 +36,8 @@ module ConfigureS3Website
       @config['index_document']
     end
 
-    def error_document_name
-      @config['error_document_name']
+    def error_document
+      @config['error_document']
     end
 
     def cloudfront_distribution_config
