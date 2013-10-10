@@ -241,6 +241,7 @@ Big thanks to the following contributors (in alphabetical order):
 
 * SlawD
 * Steve Schwartz
+* Toby Marsden
 
 ## Supported Ruby versions
 
