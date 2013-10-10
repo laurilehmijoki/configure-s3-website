@@ -24,7 +24,7 @@ module ConfigureS3Website
       body = %|
         <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
           <IndexDocument>
-            <Suffix>#{config_source.index_document_name || "index.html"}</Suffix>
+            <Suffix>#{config_source.index_document || "index.html"}</Suffix>
           </IndexDocument>
           <ErrorDocument>
             <Key>#{config_source.error_document_name || "error.html"}</Key>
@@ -66,7 +66,7 @@ module ConfigureS3Website
         body = %|
           <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
             <IndexDocument>
-              <Suffix>#{config_source.index_document_name || "index.html"}</Suffix>
+              <Suffix>#{config_source.index_document || "index.html"}</Suffix>
             </IndexDocument>
             <ErrorDocument>
               <Key>#{config_source.error_document_name || "error.html"}</Key>

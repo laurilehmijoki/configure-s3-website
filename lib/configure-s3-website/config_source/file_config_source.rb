@@ -32,8 +32,8 @@ module ConfigureS3Website
       @config['routing_rules']
     end
 
-    def index_document_name
-      @config['index_document_name']
+    def index_document
+      @config['index_document']
     end
 
     def error_document_name
