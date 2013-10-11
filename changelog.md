@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.0
+
+* Add support for custom index and error documents
+
 ## 1.4.0
 
 * Allow the user to store his CloudFront settings in the config file
