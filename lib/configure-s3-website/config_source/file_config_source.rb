@@ -32,6 +32,14 @@ module ConfigureS3Website
       @config['routing_rules']
     end
 
+    def index_document
+      @config['index_document']
+    end
+
+    def error_document
+      @config['error_document']
+    end
+
     def cloudfront_distribution_config
       @config['cloudfront_distribution_config']
     end
