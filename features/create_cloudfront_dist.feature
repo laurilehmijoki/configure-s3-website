@@ -12,7 +12,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
       Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
-        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
+        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront
         Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist.yml
@@ -32,7 +32,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
       Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
-        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
+        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront
         Added setting 'cloudfront_distribution_id: E45H2VN49KPDU' into features/support/sample_config_files/create_cf_dist_with_custom_configs.yml
@@ -57,7 +57,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
       Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
-        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the bucket website-via-cf
+        The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront
         Below is the response from the CloudFront API:
@@ -108,11 +108,19 @@ Feature: Create a CloudFront distribution
                       website-via-cf-S3-origin
                     </Id>
                     <DomainName>
-                      website-via-cf.s3.amazonaws.com
+                      website-via-cf.s3-website-us-east-1.amazonaws.com
                     </DomainName>
-                    <S3OriginConfig>
-                      <OriginAccessIdentity/>
-                    </S3OriginConfig>
+                    <CustomOriginConfig>
+                      <HTTPPort>
+                        80
+                      </HTTPPort>
+                      <HTTPSPort>
+                        443
+                      </HTTPSPort>
+                      <OriginProtocolPolicy>
+                        match-viewer
+                      </OriginProtocolPolicy>
+                    </CustomOriginConfig>
                   </Origin>
                 </Items>
               </Origins>

@@ -130,27 +130,28 @@ private
 
 module ConfigureS3Website
   class Endpoint
-    attr_reader :region, :location_constraint, :hostname
+    attr_reader :region, :location_constraint, :hostname, :website_hostname
 
     def initialize(location_constraint)
       raise InvalidS3LocationConstraintError unless
         location_constraints.has_key?location_constraint
       @region = location_constraints.fetch(location_constraint)[:region]
       @hostname = location_constraints.fetch(location_constraint)[:endpoint]
+      @website_hostname = location_constraints.fetch(location_constraint)[:website_endpoint]
       @location_constraint = location_constraint
     end
 
     # http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region
     def location_constraints
       {
-        ''               => { :region => 'US Standard',                   :endpoint => 's3.amazonaws.com' },
-        'us-west-2'      => { :region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com' },
-        'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com' },
-        'EU'             => { :region => 'EU (Ireland)',                  :endpoint => 's3-eu-west-1.amazonaws.com' },
-        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com' },
-        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com' },
-        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com' },
-        'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com' }
+        ''               => { :region => 'US Standard',                   :endpoint => 's3.amazonaws.com',                :website_endpoint => 's3-website-us-east-1.amazonaws.com' },
+        'us-west-2'      => { :region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com',      :website_endpoint => 's3-website-us-west-2.amazonaws.com' },
+        'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com',      :website_endpoint => 's3-website-us-west-1.amazonaws.com' },
+        'EU'             => { :region => 'EU (Ireland)',                  :endpoint => 's3-eu-west-1.amazonaws.com',      :website_endpoint => 's3-website-eu-west-1.amazonaws.com' },
+        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com' },
+        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com' },
+        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com' },
+        'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com',      :website_endpoint => 's3-website-sa-east-1.amazonaws.com' }
       }
     end
 

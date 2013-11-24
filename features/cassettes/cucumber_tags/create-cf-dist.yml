@@ -82,9 +82,12 @@ http_interactions:
       string: ! "\n        <DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2012-07-01/\">\n
         \         <Origins>\n            <Quantity>1</Quantity>\n            <Items>\n
         \             <Origin>\n                <Id>website-via-cf-S3-origin</Id>\n
-        \               <DomainName>website-via-cf.s3.amazonaws.com</DomainName>\n
-        \               <S3OriginConfig>\n                  <OriginAccessIdentity></OriginAccessIdentity>\n
-        \               </S3OriginConfig>\n              </Origin>\n            </Items>\n
+        \               <DomainName>website-via-cf.s3-website-us-east-1.amazonaws.com</DomainName>\n
+        \               <CustomOriginConfig>\n                  
+        \                 <HTTPPort>80</HTTPPort>\n
+        \                 <HTTPSPort>443</HTTPSPort>\n
+        \                 <OriginProtocolPolicy>match-viewer</OriginProtocolPolicy>\n
+        \               </CustomOriginConfig>\n              </Origin>\n            </Items>\n
         \         </Origins>\n          \n<CallerReference>configure-s3-website gem
         2013-05-18 23:07:56 +0300</CallerReference>\n<DefaultRootObject>index.html</DefaultRootObject>\n<Logging>\n
         \ <Enabled>false</Enabled>\n  <IncludeCookies>false</IncludeCookies>\n  <Bucket></Bucket>\n
@@ -127,7 +130,7 @@ http_interactions:
       string: ! '<?xml version="1.0"?>
 
         <Distribution xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/"><Id>E45H2VN49KPDU</Id><Status>InProgress</Status><LastModifiedTime>2013-05-18T20:08:00.350Z</LastModifiedTime><InProgressInvalidationBatches>0</InProgressInvalidationBatches><DomainName>d3feoe9t5ufu01.cloudfront.net</DomainName><ActiveTrustedSigners><Enabled>false</Enabled><Quantity>0</Quantity></ActiveTrustedSigners><DistributionConfig><CallerReference>configure-s3-website
-        gem 2013-05-18 23:07:56 +0300</CallerReference><Aliases><Quantity>0</Quantity></Aliases><DefaultRootObject>index.html</DefaultRootObject><Origins><Quantity>1</Quantity><Items><Origin><Id>website-via-cf-S3-origin</Id><DomainName>website-via-cf.s3.amazonaws.com</DomainName><S3OriginConfig><OriginAccessIdentity></OriginAccessIdentity></S3OriginConfig></Origin></Items></Origins><DefaultCacheBehavior><TargetOriginId>website-via-cf-S3-origin</TargetOriginId><ForwardedValues><QueryString>true</QueryString><Cookies><Forward>all</Forward></Cookies></ForwardedValues><TrustedSigners><Enabled>false</Enabled><Quantity>0</Quantity></TrustedSigners><ViewerProtocolPolicy>allow-all</ViewerProtocolPolicy><MinTTL>86400</MinTTL></DefaultCacheBehavior><CacheBehaviors><Quantity>0</Quantity></CacheBehaviors><Comment>Created
+        gem 2013-05-18 23:07:56 +0300</CallerReference><Aliases><Quantity>0</Quantity></Aliases><DefaultRootObject>index.html</DefaultRootObject><Origins><Quantity>1</Quantity><Items><Origin><Id>website-via-cf-S3-origin</Id><DomainName>website-via-cf.s3-website-us-east-1.amazonaws.com</DomainName><CustomOriginConfig> <HTTPPort>80</HTTPPort> <HTTPSPort>443</HTTPSPort> <OriginProtocolPolicy>match-viewer</OriginProtocolPolicy> </CustomOriginConfig></Origin></Items></Origins><DefaultCacheBehavior><TargetOriginId>website-via-cf-S3-origin</TargetOriginId><ForwardedValues><QueryString>true</QueryString><Cookies><Forward>all</Forward></Cookies></ForwardedValues><TrustedSigners><Enabled>false</Enabled><Quantity>0</Quantity></TrustedSigners><ViewerProtocolPolicy>allow-all</ViewerProtocolPolicy><MinTTL>86400</MinTTL></DefaultCacheBehavior><CacheBehaviors><Quantity>0</Quantity></CacheBehaviors><Comment>Created
         by the configure-s3-website gem</Comment><Logging><Enabled>false</Enabled><IncludeCookies>false</IncludeCookies><Bucket></Bucket><Prefix></Prefix></Logging><PriceClass>PriceClass_All</PriceClass><Enabled>true</Enabled></DistributionConfig></Distribution>'
     http_version: 
   recorded_at: Sat, 18 May 2013 20:07:57 GMT

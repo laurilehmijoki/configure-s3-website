@@ -60,11 +60,11 @@ describe ConfigureS3Website::CloudFrontClient do
         )
       }
 
-      it 'honors the endpoint of the S3 bucket' do
+      it 'honors the endpoint of the S3 website' do
         REXML::XPath.first(
           distribution_config_xml,
           '/DistributionConfig/Origins/Items/Origin/DomainName'
-        ).get_text.to_s.should eq('test-bucket.s3-us-west-1.amazonaws.com')
+        ).get_text.to_s.should eq('test-bucket.s3-website-us-west-1.amazonaws.com')
       end
     end
   end

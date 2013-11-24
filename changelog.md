@@ -2,6 +2,13 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.1
+
+* Use the S3 website domain as the Cloudfront origin
+
+  Replace `S3OriginConfig` with `CustomOriginConfig`. This solves the issue
+  https://github.com/laurilehmijoki/configure-s3-website/issues/6.
+
 ## 1.5.0
 
 * Add support for custom index and error documents

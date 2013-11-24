@@ -64,7 +64,7 @@ module ConfigureS3Website
         ).body
       )
       dist_id = REXML::XPath.first(response_xml, '/Distribution/Id').get_text
-      print_report_on_new_dist response_xml, dist_id, options
+      print_report_on_new_dist response_xml, dist_id, options, config_source
       config_source.cloudfront_distribution_id = dist_id.to_s
       puts "  Added setting 'cloudfront_distribution_id: #{dist_id}' into #{config_source.description}"
       unless custom_distribution_config.empty?
@@ -81,10 +81,14 @@ module ConfigureS3Website
         gsub(/^/, padding(left_padding))
     end
 
-    def self.print_report_on_new_dist(response_xml, dist_id, options)
+    def self.print_report_on_new_dist(response_xml, dist_id, options, config_source)
       config_source = options[:config_source]
-      domain_name = REXML::XPath.first(response_xml, '/Distribution/DomainName').get_text
-      puts "  The distribution #{dist_id} at #{domain_name} now delivers the bucket #{config_source.s3_bucket_name}"
+      dist_domain_name = REXML::XPath.first(response_xml, '/Distribution/DomainName').get_text
+      s3_website_domain_name = REXML::XPath.first(
+        response_xml,
+        '/Distribution/DistributionConfig/Origins/Items/Origin/DomainName'
+      ).get_text
+      puts "  The distribution #{dist_id} at #{dist_domain_name} now delivers the origin #{s3_website_domain_name}"
       puts '    Please allow up to 15 minutes for the distribution to initialise'
       puts '    For more information on the distribution, see https://console.aws.amazon.com/cloudfront'
       if options[:verbose]
@@ -102,6 +106,7 @@ module ConfigureS3Website
     end
 
     def self.distribution_config_xml(config_source, custom_cf_settings)
+      domain_name = "#{config_source.s3_bucket_name}.#{Endpoint.by_config_source(config_source).website_hostname}"
       %|
       <DistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/">
         <Origins>
@@ -109,10 +114,12 @@ module ConfigureS3Website
           <Items>
             <Origin>
               <Id>#{origin_id config_source}</Id>
-              <DomainName>#{config_source.s3_bucket_name}.#{Endpoint.by_config_source(config_source).hostname}</DomainName>
-              <S3OriginConfig>
-                <OriginAccessIdentity></OriginAccessIdentity>
-              </S3OriginConfig>
+              <DomainName>#{domain_name}</DomainName>
+              <CustomOriginConfig>
+                <HTTPPort>80</HTTPPort>
+                <HTTPSPort>443</HTTPSPort>
+                <OriginProtocolPolicy>match-viewer</OriginProtocolPolicy>
+              </CustomOriginConfig>
             </Origin>
           </Items>
         </Origins>
