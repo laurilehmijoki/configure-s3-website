@@ -10,6 +10,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
 
   s.add_dependency 'deep_merge', '= 1.0.0'
+  s.add_dependency 'route53', '= 0.2.2'
 
   s.add_development_dependency 'rspec', '~> 2.10.0'
   s.add_development_dependency 'rspec-expectations', '~> 2.10.0'

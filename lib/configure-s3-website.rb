@@ -1,6 +1,7 @@
 require 'configure-s3-website/version'
 require 'configure-s3-website/s3_client'
 require 'configure-s3-website/cloudfront_client'
+require 'configure-s3-website/route53_client'
 require 'configure-s3-website/xml_helper'
 require 'configure-s3-website/http_helper'
 require 'configure-s3-website/runner'

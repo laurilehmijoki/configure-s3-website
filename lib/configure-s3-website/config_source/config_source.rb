@@ -26,5 +26,11 @@ module ConfigureS3Website
 
     def cloudfront_distribution_id=(dist_id)
     end
+
+    def redirect_domains
+    end
+
+    def route53_enabled
+    end
   end
 end
