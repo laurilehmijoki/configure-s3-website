@@ -3,6 +3,7 @@ module ConfigureS3Website
     def self.run(options, standard_input = STDIN)
       S3Client.configure_website options
       maybe_create_or_update_cloudfront options, standard_input
+      maybe_create_or_update_route53 options, standard_input
     end
 
     private
@@ -15,6 +16,13 @@ module ConfigureS3Website
       if user_already_has_cf_configured(options) and user_has_custom_cf_dist_config(options)
         CloudFrontClient.apply_distribution_config options
         return
+      end
+    end
+
+    def self.maybe_create_or_update_route53(options, standard_input)
+      route53_enabled = options[:config_source].route53_enabled
+      unless route53_enabled.nil? or not route53_enabled
+        Route53Client.apply(options)
       end
     end
 

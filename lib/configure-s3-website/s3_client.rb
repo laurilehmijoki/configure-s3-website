@@ -12,6 +12,7 @@ module ConfigureS3Website
         enable_website_configuration(config_source)
         make_bucket_readable_to_everyone(config_source)
         configure_bucket_redirects(config_source)
+        configure_sub_domain_redirects(config_source)
       rescue NoSuchBucketError
         create_bucket(config_source)
         retry
@@ -32,12 +33,61 @@ module ConfigureS3Website
         </WebsiteConfiguration>
       |
       HttpHelper.call_s3_api(
-        path = "/#{config_source.s3_bucket_name}/?website",
-        method = Net::HTTP::Put,
-        body = body,
-        config_source = config_source
+          path = "/#{config_source.s3_bucket_name}/?website",
+          method = Net::HTTP::Put,
+          body = body,
+          config_source = config_source
       )
       puts "Bucket #{config_source.s3_bucket_name} now functions as a website"
+    end
+
+    def self.configure_sub_domain_redirects(config_source)
+      # Create buckets for each sub domain
+        unless config_source.redirect_domains.nil?
+          config_source.redirect_domains.each do |domain|
+            begin
+              enable_website_domain_redirects(config_source, domain)
+            rescue NoSuchBucketError
+              create_bucket(config_source, domain)
+              retry
+            end
+          end
+        end
+    end
+
+    def self.enable_website_domain_redirects(config_source, bucket)
+      body = %|
+        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
+          <RedirectAllRequestsTo>
+            <HostName>#{config_source.s3_bucket_name}</HostName>
+          </RedirectAllRequestsTo>
+        </WebsiteConfiguration>
+      |
+      HttpHelper.call_s3_api(
+          path = "/#{bucket}/?website",
+          method = Net::HTTP::Put,
+          body = body,
+          config_source = config_source
+      )
+      puts "Bucket #{bucket} now redirects to #{config_source.s3_bucket_name}"
+    end
+
+    def self.get_endpoint(config_source, bucket)
+      # Need a reliable way to get the end point of existing buckets so that I
+      # can do proper redirects in Route53Client
+
+      # NOTES: I was going to send a request and get back the endpoint for the bucket,
+      # but that can't be done with SOAP.  May want to look at moving to a REST API.
+      #
+      # That is why I ended up just reading the endpoint from the config file as done
+      # in the create function below.  In the future, we should query to find the endpoint
+      # for a specific bucket.
+      endpoint = Endpoint.new(config_source.s3_endpoint || '')
+
+      # return the website endpoint of the location & the hosted_zone_id
+      website_endpoint = endpoint.location_constraints[endpoint.location_constraint][:website_endpoint]
+      hosted_zone_id = endpoint.location_constraints[endpoint.location_constraint][:hosted_zone_id]
+      return website_endpoint, hosted_zone_id
     end
 
     def self.make_bucket_readable_to_everyone(config_source)
@@ -99,7 +149,11 @@ module ConfigureS3Website
       end
     end
 
-    def self.create_bucket(config_source)
+    def self.create_bucket(config_source, alt_bucket_name=nil)
+      bucket_name = config_source.s3_bucket_name
+      unless alt_bucket_name.nil?
+        bucket_name = alt_bucket_name
+      end
       endpoint = Endpoint.new(config_source.s3_endpoint || '')
       body = if endpoint.region == 'US Standard'
                '' # The standard endpoint does not need a location constraint
@@ -112,16 +166,16 @@ module ConfigureS3Website
              end
 
       HttpHelper.call_s3_api(
-        path = "/#{config_source.s3_bucket_name}",
+        path = "/#{bucket_name}",
         method = Net::HTTP::Put,
         body = body,
         config_source = config_source
       )
       puts "Created bucket %s in the %s Region" %
-        [
-          config_source.s3_bucket_name,
-          endpoint.region
-        ]
+               [
+                   bucket_name,
+                   endpoint.region
+               ]
     end
   end
 end
@@ -133,8 +187,7 @@ module ConfigureS3Website
     attr_reader :region, :location_constraint, :hostname, :website_hostname
 
     def initialize(location_constraint)
-      raise InvalidS3LocationConstraintError unless
-        location_constraints.has_key?location_constraint
+      raise InvalidS3LocationConstraintError unless location_constraints.has_key? location_constraint
       @region = location_constraints.fetch(location_constraint)[:region]
       @hostname = location_constraints.fetch(location_constraint)[:endpoint]
       @website_hostname = location_constraints.fetch(location_constraint)[:website_endpoint]
@@ -142,6 +195,7 @@ module ConfigureS3Website
     end
 
     # http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region
+    # Added hosted zone info too (needed for route53 redirects)
     def location_constraints
       eu_west_1_region = {
         :region           => 'EU (Ireland)',
@@ -150,15 +204,14 @@ module ConfigureS3Website
       }
 
       {
-        ''               => { :region => 'US Standard',                   :endpoint => 's3.amazonaws.com',                :website_endpoint => 's3-website-us-east-1.amazonaws.com' },
-        'us-west-2'      => { :region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com',      :website_endpoint => 's3-website-us-west-2.amazonaws.com' },
-        'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com',      :website_endpoint => 's3-website-us-west-1.amazonaws.com' },
-        'EU'             => eu_west_1_region,
-        'eu-west-1'      => eu_west_1_region,
-        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com' },
-        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com' },
-        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com' },
-        'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com',      :website_endpoint => 's3-website-sa-east-1.amazonaws.com' }
+          '' => {:region => 'US Standard', :endpoint => 's3.amazonaws.com', :website_endpoint => 's3-website-us-east-1.amazonaws.com', :hosted_zone_id => 'Z3AQBSTGFYJSTF'},
+          'us-west-2' => {:region => 'US West (Oregon)', :endpoint => 's3-us-west-2.amazonaws.com', :website_endpoint => 's3-website-us-west-2.amazonaws.com', :hosted_zone_id => 'Z3BJ6K6RIION7M'},
+          'us-west-1' => {:region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com', :website_endpoint => 's3-website-us-west-1.amazonaws.com', :hosted_zone_id => 'Z2F56UZL2M1ACD'},
+          'EU' => {:region => 'EU (Ireland)', :endpoint => 's3-eu-west-1.amazonaws.com', :website_endpoint => 's3-website-eu-west-1.amazonaws.com', :hosted_zone_id => 'Z1BKCTXD74EZP#'},
+          'ap-southeast-1' => {:region => 'Asia Pacific (Singapore)', :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com', :hosted_zone_id => 'Z3O0J2DXBE1FTB'},
+          'ap-southeast-2' => {:region => 'Asia Pacific (Sydney)', :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com', :hosted_zone_id => 'Z1WCIGYICN2BYD'},
+          'ap-northeast-1' => {:region => 'Asia Pacific (Tokyo)', :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com', :hosted_zone_id => 'Z2M4EHUR26P7ZW'},
+          'sa-east-1' => {:region => 'South America (Sao Paulo)', :endpoint => 's3-sa-east-1.amazonaws.com', :website_endpoint => 's3-website-sa-east-1.amazonaws.com', :hosted_zone_id => 'Z7KQH4QJS55SO'}
       }
     end
 
