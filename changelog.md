@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.2
+
+* Support location constraint eu-west-1
+
 ## 1.5.1
 
 * Use the S3 website domain as the Cloudfront origin
