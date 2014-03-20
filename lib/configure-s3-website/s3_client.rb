@@ -33,26 +33,26 @@ module ConfigureS3Website
         </WebsiteConfiguration>
       |
       HttpHelper.call_s3_api(
-          path = "/#{config_source.s3_bucket_name}/?website",
-          method = Net::HTTP::Put,
-          body = body,
-          config_source = config_source
+        path = "/#{config_source.s3_bucket_name}/?website",
+        method = Net::HTTP::Put,
+        body = body,
+        config_source = config_source
       )
       puts "Bucket #{config_source.s3_bucket_name} now functions as a website"
     end
 
     def self.configure_sub_domain_redirects(config_source)
       # Create buckets for each sub domain
-        unless config_source.redirect_domains.nil?
-          config_source.redirect_domains.each do |domain|
-            begin
-              enable_website_domain_redirects(config_source, domain)
-            rescue NoSuchBucketError
-              create_bucket(config_source, domain)
-              retry
-            end
+      unless config_source.redirect_domains.nil?
+        config_source.redirect_domains.each do |domain|
+          begin
+            enable_website_domain_redirects(config_source, domain)
+          rescue NoSuchBucketError
+            create_bucket(config_source, domain)
+            retry
           end
         end
+      end
     end
 
     def self.enable_website_domain_redirects(config_source, bucket)
@@ -64,10 +64,10 @@ module ConfigureS3Website
         </WebsiteConfiguration>
       |
       HttpHelper.call_s3_api(
-          path = "/#{bucket}/?website",
-          method = Net::HTTP::Put,
-          body = body,
-          config_source = config_source
+        path = "/#{bucket}/?website",
+        method = Net::HTTP::Put,
+        body = body,
+        config_source = config_source
       )
       puts "Bucket #{bucket} now redirects to #{config_source.s3_bucket_name}"
     end
@@ -172,10 +172,10 @@ module ConfigureS3Website
         config_source = config_source
       )
       puts "Created bucket %s in the %s Region" %
-               [
-                   bucket_name,
-                   endpoint.region
-               ]
+        [
+          bucket_name,
+          endpoint.region
+        ]
     end
   end
 end
@@ -204,14 +204,14 @@ module ConfigureS3Website
       }
 
       {
-          '' => {:region => 'US Standard', :endpoint => 's3.amazonaws.com', :website_endpoint => 's3-website-us-east-1.amazonaws.com', :hosted_zone_id => 'Z3AQBSTGFYJSTF'},
-          'us-west-2' => {:region => 'US West (Oregon)', :endpoint => 's3-us-west-2.amazonaws.com', :website_endpoint => 's3-website-us-west-2.amazonaws.com', :hosted_zone_id => 'Z3BJ6K6RIION7M'},
-          'us-west-1' => {:region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com', :website_endpoint => 's3-website-us-west-1.amazonaws.com', :hosted_zone_id => 'Z2F56UZL2M1ACD'},
-          'EU' => {:region => 'EU (Ireland)', :endpoint => 's3-eu-west-1.amazonaws.com', :website_endpoint => 's3-website-eu-west-1.amazonaws.com', :hosted_zone_id => 'Z1BKCTXD74EZP#'},
-          'ap-southeast-1' => {:region => 'Asia Pacific (Singapore)', :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com', :hosted_zone_id => 'Z3O0J2DXBE1FTB'},
-          'ap-southeast-2' => {:region => 'Asia Pacific (Sydney)', :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com', :hosted_zone_id => 'Z1WCIGYICN2BYD'},
-          'ap-northeast-1' => {:region => 'Asia Pacific (Tokyo)', :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com', :hosted_zone_id => 'Z2M4EHUR26P7ZW'},
-          'sa-east-1' => {:region => 'South America (Sao Paulo)', :endpoint => 's3-sa-east-1.amazonaws.com', :website_endpoint => 's3-website-sa-east-1.amazonaws.com', :hosted_zone_id => 'Z7KQH4QJS55SO'}
+        ''                => {:region => 'US Standard',                   :endpoint => 's3.amazonaws.com',                :website_endpoint => 's3-website-us-east-1.amazonaws.com',      :hosted_zone_id => 'Z3AQBSTGFYJSTF'},
+        'us-west-2'       => {:region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com',      :website_endpoint => 's3-website-us-west-2.amazonaws.com',      :hosted_zone_id => 'Z3BJ6K6RIION7M'},
+        'us-west-1'       => {:region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com',      :website_endpoint => 's3-website-us-west-1.amazonaws.com',      :hosted_zone_id => 'Z2F56UZL2M1ACD'},
+        'EU'              => {:region => 'EU (Ireland)',                  :endpoint => 's3-eu-west-1.amazonaws.com',      :website_endpoint => 's3-website-eu-west-1.amazonaws.com',      :hosted_zone_id => 'Z1BKCTXD74EZP#'},
+        'ap-southeast-1'  => {:region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com', :hosted_zone_id => 'Z3O0J2DXBE1FTB'},
+        'ap-southeast-2'  => {:region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com', :hosted_zone_id => 'Z1WCIGYICN2BYD'},
+        'ap-northeast-1'  => {:region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com', :hosted_zone_id => 'Z2M4EHUR26P7ZW'},
+        'sa-east-1'       => {:region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com',      :website_endpoint => 's3-website-sa-east-1.amazonaws.com',      :hosted_zone_id => 'Z7KQH4QJS55SO'}
       }
     end
 

@@ -48,7 +48,7 @@ module ConfigureS3Website
     end
 
     def self.check_and_create_route(url, zone)
-       if route_exists?(url, zone)
+      if route_exists?(url, zone)
         # Ask the user if he/she wants to delete & recreate the route
         puts "A route already exists for #{url}"
         puts 'Do you want to re-create the existing entry and point it to your s3 bucket/Cloud Front?[y/N]'
@@ -56,9 +56,9 @@ module ConfigureS3Website
           when /(y|Y)/
             create_route(url, zone) if remove_route(url, zone)
         end
-       else
-         create_route(url, zone)
-       end
+      else
+        create_route(url, zone)
+      end
     end
 
     def self.remove_route(url, zone)
