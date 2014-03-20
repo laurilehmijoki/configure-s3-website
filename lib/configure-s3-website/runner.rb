@@ -22,7 +22,8 @@ module ConfigureS3Website
     def self.maybe_create_or_update_route53(options, standard_input)
       route53_enabled = options[:config_source].route53_enabled
       unless route53_enabled.nil? or not route53_enabled
-        Route53Client.apply(options)
+        route53_client = Route53Client.new(options)
+        route53_client.apply
       end
     end
 
