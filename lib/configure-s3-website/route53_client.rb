@@ -161,13 +161,12 @@ module ConfigureS3Website
     def self.route_exists?(url, zone)
       # checks to see if the route already is in DNS (maybe it has been set to something other than s3)
       records = zone.get_records
-      records.each do |rec|
-        if rec.name.include? url
-          return true
-        end
+      record = records.find {|rec| rec.name.include? url}
+      if record.nil?
+        return false
+      else
+        return true
       end
-      # if it's not found, return false
-      false
     end
 
   end
