@@ -2,15 +2,17 @@ require 'route53'
 
 module ConfigureS3Website
   class Route53Client
-
-    def self.apply(options)
+    def initialize(options)
       @config_source = options[:config_source]
+
+      # Set up the connection to route53 and store in @conn
+      @conn = Route53::Connection.new(@config_source.s3_access_key_id, @config_source.s3_secret_access_key)
+    end
+
+    def apply
 
       # Set the domain for the site
       domain = get_domain_name @config_source.s3_bucket_name
-
-      # Set up the connection to route53 and store in @conn
-      get_connection
 
       # Check to ensure that there is a hosted zone for the given domain
       zone = check_and_create_hosted_zone_if_user_agrees domain
@@ -21,30 +23,29 @@ module ConfigureS3Website
 
         # Create routes for redirect urls
         unless @config_source.redirect_domains.nil?
-          @config_source.redirect_domains.each do |url|
-            # check to see if the domain of the redirect_urls matches the domain of the main bucket (s3_bucket_name)
-            redirect_domain = get_domain_name url
-            if redirect_domain != domain
-              redirect_zone = check_and_create_hosted_zone_if_user_agrees redirect_domain
-               unless redirect_zone.nil?
-                # Just create the route here, there is no need to check if it exists because we just created the
-                # new zone.
-                create_route(url, redirect_zone)
-              end
-            else
-              # Check to see if the route exists and create route to the specific redirect_url
-              check_and_create_route(url, zone)
-            end
-          end
+          check_and_create_redirect_routes(@config_source.redirect_domains)
         end
       end
     end
 
     private
 
-    def self.get_connection
-      # Establish connection with amazon
-      @conn = Route53::Connection.new(@config_source.s3_access_key_id, @config_source.s3_secret_access_key)
+    def self.check_and_create_redirect_routes(redirect_domains)
+      redirect_domains.each do |url|
+        # check to see if the domain of the redirect_urls matches the domain of the main bucket (s3_bucket_name)
+        redirect_domain = get_domain_name url
+        if redirect_domain != domain
+          redirect_zone = check_and_create_hosted_zone_if_user_agrees redirect_domain
+          unless redirect_zone.nil?
+            # Just create the route here, there is no need to check if it exists because we just created the
+            # new zone.
+            create_route(url, redirect_zone)
+          end
+        else
+          # Check to see if the route exists and create route to the specific redirect_url
+          check_and_create_route(url, zone)
+        end
+      end
     end
 
     def self.check_and_create_route(url, zone)
