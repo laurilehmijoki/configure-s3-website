@@ -119,39 +119,43 @@ module ConfigureS3Website
     end
 
     def self.check_and_create_hosted_zone_if_user_agrees(domain)
-      # Creates a hosted zone if user says sure
-      success = false
-      if not hosted_zone_exits?(domain) # We need to have the user create the zone first.
-
-        puts "A hosted zone for #{domain} does not exist, create one now?[y/N]?"
-        case gets.chomp
-          when /(y|Y)/
-            zone = Route53::Zone.new(domain, nil, @conn)
-            resp = zone.create_zone
-            if resp.error?
-              puts resp
-              success = false
-            else
-              while resp.pending?
-                sleep 1 # Wait for the response to finish so that we can create routes on the zone
-              end
-              success = true
-            end
-          else
-            success = false
-        end
-      else # the domain already exists
-        success = true
+      zone_exists = ask_user_to_create_zone
+      if zone_exists
         zone = get_zone domain
-      end
-
-      unless success
+      else
         puts "Please create a hosted zone for #{domain} at: \n" +
              "https://console.aws.amazon.com/route53/home before \n" +
              "trying to auto-configure route53."
+        zone = nil
       end
-
       return zone
+    end
+
+    def ask_user_to_create_zone(domain)
+      if not hosted_zone_exits?(domain) # We need to have the user create the zone first.
+        puts "A hosted zone for #{domain} does not exist, create one now?[y/N]?"
+        case gets.chomp
+          when /(y|Y)/
+            # Create a new zone object
+            zone = Route53::Zone.new(domain, nil, @conn)
+            # Send the request to Amazon
+            resp = zone.create_zone
+            if resp.error? # The response failed, show the user the error
+              puts resp
+              zone_exists = false
+            else
+              while resp.pending?
+              sleep 1 # Wait for the response to finish so that we can create routes on the zone
+              end
+              zone_exists = true
+            end
+          else # The user doesn't want to create a zone at this time
+          zone_exists = false
+        end
+      else # the domain already exists
+        zone_exists = true
+      end
+      zone_exists
     end
 
     def self.route_exists?(url, zone)
