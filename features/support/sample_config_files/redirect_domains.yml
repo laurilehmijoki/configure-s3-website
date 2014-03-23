@@ -1,0 +1,5 @@
+s3_bucket: morninglightmountain.com
+s3_id: foo
+s3_secret: bar
+redirect_domains:
+- www.morninglightmountain.com
