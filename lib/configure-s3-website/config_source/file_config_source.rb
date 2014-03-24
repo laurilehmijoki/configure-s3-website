@@ -55,6 +55,14 @@ module ConfigureS3Website
       end
     end
 
+    def redirect_domains
+      @config['redirect_domains']
+    end
+
+    def route53_enabled
+      @config['route53']
+    end
+
     private
 
     def self.parse_config(yaml_file_path)
