@@ -1,0 +1,121 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <IndexDocument>\n            <Suffix>index.html</Suffix>\n          </IndexDocument>\n
+        \         <ErrorDocument>\n            <Key>error.html</Key>\n          </ErrorDocument>\n
+        \       </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Mon, 24 Mar 2014 02:36:19 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '298'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - k45w5VE3NidgW5L0mTIIKrVxWZf+PR0jluMhJm+nHFFUjyKVuMfvaDGtT1dT+TH5
+      X-Amz-Request-Id:
+      - 0143791FDB2391D8
+      Date:
+      - Mon, 24 Mar 2014 02:36:21 GMT
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 24 Mar 2014 02:36:20 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com/?policy
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+                "Version":"2008-10-17",
+                "Statement":[{
+                  "Sid":"PublicReadForGetBucketObjects",
+                  "Effect":"Allow",
+                  "Principal": { "AWS": "*" },
+                  "Action":["s3:GetObject"],
+                  "Resource":["arn:aws:s3:::morninglightmountain.com/*"]
+                }]
+              }
+    headers:
+      Date:
+      - Mon, 24 Mar 2014 02:36:20 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '293'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      X-Amz-Id-2:
+      - jXMb+wg0Eb+JUHod1ioM0kWUYNziwKGoMJf8F4NZUnr6FxX+lk0+f77gTFKQjQ0N
+      X-Amz-Request-Id:
+      - 8D5280399B141ADE
+      Date:
+      - Mon, 24 Mar 2014 02:36:23 GMT
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 24 Mar 2014 02:36:21 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/www.morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <RedirectAllRequestsTo>\n            <HostName>morninglightmountain.com</HostName>\n
+        \         </RedirectAllRequestsTo>\n        </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Mon, 24 Mar 2014 02:36:21 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '245'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - sLHNPrXDE5upPqWun5gSafBceBg/2+dN8l6VXrb81u0NPxidlHMhkwlwVA+qLlwm
+      X-Amz-Request-Id:
+      - 241C56298998B126
+      Date:
+      - Mon, 24 Mar 2014 02:36:24 GMT
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 24 Mar 2014 02:36:23 GMT
+recorded_with: VCR 2.8.0

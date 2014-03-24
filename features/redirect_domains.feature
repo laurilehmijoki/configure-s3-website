@@ -21,3 +21,18 @@ Feature: redirect domains
         Added setting 'cloudfront_distribution_id: E2P3503QUJ2Y33' into features/support/sample_config_files/redirect_domains.yml
 
       """
+
+  @redirect-domains-and-cloudfront-exists
+  @wip
+  Scenario: The user re-applies a configuration that contains both redirect domains and a CloudFront distribution
+    When I run the configure-s3-website command with parameters
+      | option        | value                                                                       |
+      | --config-file | features/support/sample_config_files/redirect_domains_and_cloudfront_exists.yml |
+    Then the output should be
+      """
+      Bucket morninglightmountain.com now functions as a website
+      Bucket morninglightmountain.com is now readable to the whole world
+      No redirects to configure for morninglightmountain.com bucket
+      Bucket www.morninglightmountain.com now redirects to morninglightmountain.com
+
+      """

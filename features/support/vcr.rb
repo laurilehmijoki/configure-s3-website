@@ -13,4 +13,5 @@ VCR.cucumber_tags do |t|
   t.tag '@create-cf-dist'
   t.tag '@apply-configs-on-cf-dist'
   t.tag '@redirect-domains'
+  t.tag '@redirect-domains-and-cloudfront-exists'
 end
