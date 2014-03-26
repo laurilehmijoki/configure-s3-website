@@ -23,14 +23,14 @@ module ConfigureS3Website
 
         # Create routes for redirect urls
         unless @config_source.redirect_domains.nil?
-          check_and_create_redirect_routes(@config_source.redirect_domains)
+          check_and_create_redirect_routes(@config_source.redirect_domains, domain, zone)
         end
       end
     end
 
     private
 
-    def self.check_and_create_redirect_routes(redirect_domains)
+    def check_and_create_redirect_routes(redirect_domains, domain, zone)
       redirect_domains.each do |url|
         # check to see if the domain of the redirect_urls matches the domain of the main bucket (s3_bucket_name)
         redirect_domain = get_domain_name url
@@ -48,7 +48,7 @@ module ConfigureS3Website
       end
     end
 
-    def self.check_and_create_route(url, zone)
+    def check_and_create_route(url, zone)
       if route_exists?(url, zone)
         # Ask the user if he/she wants to delete & recreate the route
         puts "A route already exists for #{url}"
@@ -62,7 +62,7 @@ module ConfigureS3Website
       end
     end
 
-    def self.remove_route(url, zone)
+    def remove_route(url, zone)
       records = zone.get_records
       records = records.select {|rec| rec.name.include? url}
       if records.length == 1
@@ -75,7 +75,7 @@ module ConfigureS3Website
       end
     end
 
-    def self.create_route(url, zone)
+    def create_route(url, zone)
 
       if not @config_source.cloudfront_distribution_id.nil? and url == @config_source.s3_bucket_name
         # Then this needs to point to Cloud front
@@ -96,13 +96,13 @@ module ConfigureS3Website
       end
     end
 
-    def self.get_domain_name(bucket)
+    def get_domain_name(bucket)
       bucket_name = bucket
       parts = bucket_name.split('.')
       domain = "#{parts.last(2).join('.')}."
     end
 
-    def self.hosted_zone_exits?(domain)
+    def hosted_zone_exits?(domain)
       # Check to see if the user has already created a hosted zone
 
       zone = get_zone domain
@@ -110,7 +110,7 @@ module ConfigureS3Website
       not zone.nil?
     end
 
-    def self.get_zone(domain)
+    def get_zone(domain)
       # Get an array of the user's zones (usually one per domain)
       zones = @conn.get_zones
 
@@ -118,8 +118,8 @@ module ConfigureS3Website
       zone = zones.select { |zone| zone.name == domain}[0]
     end
 
-    def self.check_and_create_hosted_zone_if_user_agrees(domain)
-      zone_exists = ask_user_to_create_zone
+    def check_and_create_hosted_zone_if_user_agrees(domain)
+      zone_exists = ask_user_to_create_zone domain
       if zone_exists
         zone = get_zone domain
       else
@@ -158,7 +158,7 @@ module ConfigureS3Website
       zone_exists
     end
 
-    def self.route_exists?(url, zone)
+    def route_exists?(url, zone)
       # checks to see if the route already is in DNS (maybe it has been set to something other than s3)
       records = zone.get_records
       record = records.find {|rec| rec.name.include? url}
