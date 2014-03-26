@@ -56,9 +56,9 @@ Feature: redirect domains
            Please allow up to 15 minutes for the distribution to initialise
            For more information on the distribution, see https://console.aws.amazon.com/cloudfront
          Added setting 'cloudfront_distribution_id: ESJ3PU6AQ080V' into features/support/sample_config_files/setup_redirect_domains_with_route_53.yml
-       A hosted zone for morninglightmountain.com. does not exist, create one now?[y/N]?
+       A hosted zone for morninglightmountain.com. does not exist, create one now? [y/N]
        A route already exists for morninglightmountain.com
-       Do you want to re-create the existing entry and point it to your s3 bucket/Cloud Front?[y/N]
+       Do you want to re-create the existing entry and point it to your S3 bucket/CloudFront? [y/N]
        Unable to remove record for morninglightmountain.com, please do it in the AWS Management console.
        Route53 Entry created for: www.morninglightmountain.com pointing to s3-website-us-east-1.amazonaws.com
 

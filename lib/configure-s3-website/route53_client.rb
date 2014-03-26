@@ -53,7 +53,7 @@ module ConfigureS3Website
       if route_exists?(url, zone)
         # Ask the user if he/she wants to delete & recreate the route
         puts "A route already exists for #{url}"
-        puts 'Do you want to re-create the existing entry and point it to your s3 bucket/Cloud Front?[y/N]'
+        puts 'Do you want to re-create the existing entry and point it to your S3 bucket/CloudFront? [y/N]'
         case @standard_input.gets.chomp
           when /(y|Y)/
             create_route(url, zone) if remove_route(url, zone)
@@ -134,7 +134,7 @@ module ConfigureS3Website
 
     def ask_user_to_create_zone(domain)
       if not hosted_zone_exits?(domain) # We need to have the user create the zone first.
-        puts "A hosted zone for #{domain} does not exist, create one now?[y/N]?"
+        puts "A hosted zone for #{domain} does not exist, create one now? [y/N]"
         case @standard_input.gets.chomp
           when /(y|Y)/
             # Create a new zone object
