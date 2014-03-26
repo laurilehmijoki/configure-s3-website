@@ -4,7 +4,7 @@ Feature: redirect domains
   Scenario: The user wants to redirect from "http://www.mysite.com" to "http://mysite.com"
     Given I answer 'yes' to 'do you want to use CloudFront'
     When I run the configure-s3-website command with parameters
-      | option        | value                                                                       |
+      | option        | value                                                     |
       | --config-file | features/support/sample_config_files/redirect_domains.yml |
     Then the output should be
       """
@@ -23,10 +23,9 @@ Feature: redirect domains
       """
 
   @redirect-domains-and-cloudfront-exists
-  @wip
   Scenario: The user re-applies a configuration that contains both redirect domains and a CloudFront distribution
     When I run the configure-s3-website command with parameters
-      | option        | value                                                                       |
+      | option        | value                                                                           |
       | --config-file | features/support/sample_config_files/redirect_domains_and_cloudfront_exists.yml |
     Then the output should be
       """
