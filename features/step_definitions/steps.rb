@@ -14,6 +14,10 @@ Given /^I answer 'yes' to 'do you want to use CloudFront'$/ do
   @first_stdin_answer = 'y'
 end
 
+Given /^I answer 'yes' to 'A hosted zone for domain does not exist, create one now\?'$/ do
+  @first_stdin_answer = 'y'
+end
+
 Then /^the output should be$/ do |expected_console_output|
   @console_output.should eq(expected_console_output)
 end

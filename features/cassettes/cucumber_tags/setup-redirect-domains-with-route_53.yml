@@ -1,0 +1,1633 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <IndexDocument>\n            <Suffix>index.html</Suffix>\n          </IndexDocument>\n
+        \         <ErrorDocument>\n            <Key>error.html</Key>\n          </ErrorDocument>\n
+        \       </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:16 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '298'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Amz-Request-Id:
+      - 59FA90549DAE9F7D
+      X-Amz-Id-2:
+      - LhXPr+jecNfTSLYagOi4nbIBqGYQY+A5eFLOPoKvdi6giDdiu2OGKa2y1EbVdnrA
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 26 Mar 2014 03:11:16 GMT
+      Connection:
+      - close
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message><BucketName>morninglightmountain.com</BucketName><RequestId>59FA90549DAE9F7D</RequestId><HostId>LhXPr+jecNfTSLYagOi4nbIBqGYQY+A5eFLOPoKvdi6giDdiu2OGKa2y1EbVdnrA</HostId></Error>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:16 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:16 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '0'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - 2wxfa6tK8px1j4qc6bPVmMPVOOIVqyCDJAQFpMY5bIkUdVva66ReJXnCiIHgaOTp
+      X-Amz-Request-Id:
+      - 101CC8587230ED55
+      Date:
+      - Wed, 26 Mar 2014 03:11:17 GMT
+      Location:
+      - /morninglightmountain.com
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:17 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <IndexDocument>\n            <Suffix>index.html</Suffix>\n          </IndexDocument>\n
+        \         <ErrorDocument>\n            <Key>error.html</Key>\n          </ErrorDocument>\n
+        \       </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:17 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '298'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - 4TOB0SB6dNy+OQshEBn5i4wFm0enE+JfebwMLRYAEZAeFf5kFoL4m9Bv+u9icNuP
+      X-Amz-Request-Id:
+      - 3A1A86D0E0A01760
+      Date:
+      - Wed, 26 Mar 2014 03:11:18 GMT
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:18 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/morninglightmountain.com/?policy
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+                "Version":"2008-10-17",
+                "Statement":[{
+                  "Sid":"PublicReadForGetBucketObjects",
+                  "Effect":"Allow",
+                  "Principal": { "AWS": "*" },
+                  "Action":["s3:GetObject"],
+                  "Resource":["arn:aws:s3:::morninglightmountain.com/*"]
+                }]
+              }
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:18 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '293'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      X-Amz-Id-2:
+      - 8woQnWOkiK9Oofm7JY1DD64irlZh8pSf3vJjYheRyj6pe0DMvnEtsHbnjaoXI3Vs
+      X-Amz-Request-Id:
+      - 0C0207AB24161BD4
+      Date:
+      - Wed, 26 Mar 2014 03:11:19 GMT
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:18 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/www.morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <RedirectAllRequestsTo>\n            <HostName>morninglightmountain.com</HostName>\n
+        \         </RedirectAllRequestsTo>\n        </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:18 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '245'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Amz-Request-Id:
+      - 57040D9DEAC768B9
+      X-Amz-Id-2:
+      - 9iJIa/0EGX2ZioRqttsIPrCK9PHlMcM5PkEgRdBezo8geRvuQLq5BO2QzlOcGBAF
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 26 Mar 2014 03:11:18 GMT
+      Connection:
+      - close
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message><BucketName>www.morninglightmountain.com</BucketName><RequestId>57040D9DEAC768B9</RequestId><HostId>9iJIa/0EGX2ZioRqttsIPrCK9PHlMcM5PkEgRdBezo8geRvuQLq5BO2QzlOcGBAF</HostId></Error>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:19 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/www.morninglightmountain.com
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:19 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '0'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - oD4WUZfKc7DLtwdFwS0Zqzo5xcK7MA1e/k4S7FjbWCRS2VQMSYeG9MP52SwZ3amg
+      X-Amz-Request-Id:
+      - 2FC6F0673150C0CC
+      Date:
+      - Wed, 26 Mar 2014 03:11:20 GMT
+      Location:
+      - /www.morninglightmountain.com
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:20 GMT
+- request:
+    method: put
+    uri: https://s3.amazonaws.com/www.morninglightmountain.com/?website
+    body:
+      encoding: UTF-8
+      string: "\n        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>\n
+        \         <RedirectAllRequestsTo>\n            <HostName>morninglightmountain.com</HostName>\n
+        \         </RedirectAllRequestsTo>\n        </WebsiteConfiguration>\n      "
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:20 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '245'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - iup7M1avJNccHKe1iIGlpC3ulLweMDrY6OkpUpCXc4t+wLYrCimU9WEiEKjm0MVj
+      X-Amz-Request-Id:
+      - 62C5C4AEE629C19A
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:20 GMT
+- request:
+    method: post
+    uri: https://cloudfront.amazonaws.com/2012-07-01/distribution
+    body:
+      encoding: UTF-8
+      string: "\n      <DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2012-07-01/\">\n
+        \       <Origins>\n          <Quantity>1</Quantity>\n          <Items>\n            <Origin>\n
+        \             <Id>morninglightmountain.com-S3-origin</Id>\n              <DomainName>morninglightmountain.com.s3-website-us-east-1.amazonaws.com</DomainName>\n
+        \             <CustomOriginConfig>\n                <HTTPPort>80</HTTPPort>\n
+        \               <HTTPSPort>443</HTTPSPort>\n                <OriginProtocolPolicy>match-viewer</OriginProtocolPolicy>\n
+        \             </CustomOriginConfig>\n            </Origin>\n          </Items>\n
+        \       </Origins>\n        \n<CallerReference>configure-s3-website gem 2014-03-26
+        05:11:20 +0200</CallerReference>\n<DefaultRootObject>index.html</DefaultRootObject>\n<Logging>\n
+        \ <Enabled>false</Enabled>\n  <IncludeCookies>false</IncludeCookies>\n  <Bucket></Bucket>\n
+        \ <Prefix></Prefix></Logging>\n<Enabled>true</Enabled>\n<Comment>Created by
+        the configure-s3-website gem</Comment>\n<Aliases>\n  <Quantity>0</Quantity></Aliases>\n<DefaultCacheBehavior>\n
+        \ <TargetOriginId>morninglightmountain.com-S3-origin</TargetOriginId>\n  <TrustedSigners>\n
+        \   <Enabled>false</Enabled>\n    <Quantity>0</Quantity></TrustedSigners>\n
+        \ <ForwardedValues>\n    <QueryString>true</QueryString>\n    <Cookies>\n
+        \     <Forward>all</Forward></Cookies></ForwardedValues>\n  <ViewerProtocolPolicy>allow-all</ViewerProtocolPolicy>\n
+        \ <MinTTL>86400</MinTTL></DefaultCacheBehavior>\n<CacheBehaviors>\n  <Quantity>0</Quantity></CacheBehaviors>\n<PriceClass>PriceClass_All</PriceClass>\n
+        \     </DistributionConfig>\n      "
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:20 UTC
+      Content-Type:
+      - ''
+      Content-Length:
+      - '1570'
+      Authorization:
+      - AWS foo:bar
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Amzn-Requestid:
+      - 4e2e3f84-b494-11e3-a629-794684678eb0
+      Etag:
+      - E3TL1S3W8MXYWA
+      Location:
+      - https://cloudfront.amazonaws.com/2012-07-01/distribution/ESJ3PU6AQ080V
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '1653'
+      Date:
+      - Wed, 26 Mar 2014 03:11:20 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <Distribution xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/"><Id>ESJ3PU6AQ080V</Id><Status>InProgress</Status><LastModifiedTime>2014-03-26T03:11:21.128Z</LastModifiedTime><InProgressInvalidationBatches>0</InProgressInvalidationBatches><DomainName>d37yyueao74wmk.cloudfront.net</DomainName><ActiveTrustedSigners><Enabled>false</Enabled><Quantity>0</Quantity></ActiveTrustedSigners><DistributionConfig><CallerReference>configure-s3-website gem 2014-03-26 05:11:20 +0200</CallerReference><Aliases><Quantity>0</Quantity></Aliases><DefaultRootObject>index.html</DefaultRootObject><Origins><Quantity>1</Quantity><Items><Origin><Id>morninglightmountain.com-S3-origin</Id><DomainName>morninglightmountain.com.s3-website-us-east-1.amazonaws.com</DomainName><CustomOriginConfig><HTTPPort>80</HTTPPort><HTTPSPort>443</HTTPSPort><OriginProtocolPolicy>match-viewer</OriginProtocolPolicy></CustomOriginConfig></Origin></Items></Origins><DefaultCacheBehavior><TargetOriginId>morninglightmountain.com-S3-origin</TargetOriginId><ForwardedValues><QueryString>true</QueryString><Cookies><Forward>all</Forward></Cookies></ForwardedValues><TrustedSigners><Enabled>false</Enabled><Quantity>0</Quantity></TrustedSigners><ViewerProtocolPolicy>allow-all</ViewerProtocolPolicy><MinTTL>86400</MinTTL></DefaultCacheBehavior><CacheBehaviors><Quantity>0</Quantity></CacheBehaviors><Comment>Created by the configure-s3-website gem</Comment><Logging><Enabled>false</Enabled><IncludeCookies>false</IncludeCookies><Bucket></Bucket><Prefix></Prefix></Logging><PriceClass>PriceClass_All</PriceClass><Enabled>true</Enabled></DistributionConfig></Distribution>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:21 GMT
+- request:
+    method: head
+    uri: https://route53.amazonaws.com/date
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 4e98254d-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - content/unknown
+      Content-Length:
+      - '2'
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:22 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 4ee952bf-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '646'
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ListHostedZonesResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><HostedZones></HostedZones><IsTruncated>false</IsTruncated><MaxItems>100</MaxItems></ListHostedZonesResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:22 GMT
+- request:
+    method: post
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2012-12-12/">
+          <Name>morninglightmountain.com.</Name>
+          <CallerReference>194590a2</CallerReference>
+          <HostedZoneConfig>
+            <Comment/>
+          </HostedZoneConfig>
+        </CreateHostedZoneRequest>
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Amzn-Requestid:
+      - 4f3d8c57-b494-11e3-b082-1f874010f398
+      Location:
+      - https://route53.amazonaws.com/2012-12-12//hostedzone/ZOM0SVSS1HS66
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '727'
+      Date:
+      - Wed, 26 Mar 2014 03:11:23 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <CreateHostedZoneResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><HostedZone><Id>/hostedzone/ZOM0SVSS1HS66</Id><Name>morninglightmountain.com.</Name><CallerReference>194590a2</CallerReference><Config><Comment></Comment></Config><ResourceRecordSetCount>2</ResourceRecordSetCount></HostedZone><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo><DelegationSet><NameServers><NameServer>ns-151.awsdns-18.com</NameServer><NameServer>ns-1351.awsdns-40.org</NameServer><NameServer>ns-919.awsdns-50.net</NameServer><NameServer>ns-1622.awsdns-10.co.uk</NameServer></NameServers></DelegationSet></CreateHostedZoneResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:23 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 4fb24742-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:23 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:24 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 50a18963-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:24 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:25 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5251d215-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:27 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:28 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5341614b-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:29 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:30 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 542f1d16-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:30 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:31 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 551cff32-b494-11e3-b16e-73450c5db4c8
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:32 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:33 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 560c68ec-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:33 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:34 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 57283934-b494-11e3-b632-a9b9945cc7d1
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:35 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:36 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 58150963-b494-11e3-9d7d-3fa65d4cd9d0
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:36 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:38 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 59049a5f-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:38 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:39 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5a1769bb-b494-11e3-9d7d-3fa65d4cd9d0
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:40 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:41 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5b0572d4-b494-11e3-b632-a9b9945cc7d1
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:41 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:43 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5bf614ab-b494-11e3-b632-a9b9945cc7d1
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:44 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:44 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5cebbef0-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:44 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:46 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5dd9c8bf-b494-11e3-89cf-5758c3974044
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:47 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:47 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5eca9138-b494-11e3-9d7d-3fa65d4cd9d0
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:48 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:49 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 5fb84c7d-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:50 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:50 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:21 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=Ms06s+HRXC3xkNVzC4oFmPmsliR7jgDeVH4sa72d4m4=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 60a78ed8-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:51 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:52 GMT
+- request:
+    method: head
+    uri: https://route53.amazonaws.com/date
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 61965bf7-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - content/unknown
+      Content-Length:
+      - '2'
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:54 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 61e761ad-b494-11e3-b16e-73450c5db4c8
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:54 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:54 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 62d54442-b494-11e3-9d7d-3fa65d4cd9d0
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:55 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:56 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 63c3c35e-b494-11e3-b632-a9b9945cc7d1
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:57 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:57 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 64b5c3c4-b494-11e3-b632-a9b9945cc7d1
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:58 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:11:59 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 65a3cd04-b494-11e3-89cf-5758c3974044
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '245'
+      Date:
+      - Wed, 26 Mar 2014 03:11:59 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:00 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/change/CPM98FTP802UY
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 66b7fc88-b494-11e3-89cf-5758c3974044
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '244'
+      Date:
+      - Wed, 26 Mar 2014 03:12:02 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/CPM98FTP802UY</Id><Status>INSYNC</Status><SubmittedAt>2014-03-26T03:11:23.084Z</SubmittedAt></ChangeInfo></GetChangeResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:02 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 670e32fa-b494-11e3-949d-2951122d0e30
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '845'
+      Date:
+      - Wed, 26 Mar 2014 03:12:01 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ListHostedZonesResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><HostedZones><HostedZone><Id>/hostedzone/ZOM0SVSS1HS66</Id><Name>morninglightmountain.com.</Name><CallerReference>194590a2</CallerReference><Config/><ResourceRecordSetCount>2</ResourceRecordSetCount></HostedZone></HostedZones><IsTruncated>false</IsTruncated><MaxItems>100</MaxItems></ListHostedZonesResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:03 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone/ZOM0SVSS1HS66/rrset
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 6763a5ac-b494-11e3-b16e-73450c5db4c8
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '928'
+      Date:
+      - Wed, 26 Mar 2014 03:12:02 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ListResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ResourceRecordSets><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>NS</Type><TTL>172800</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com.</Value></ResourceRecord><ResourceRecord><Value>ns-1351.awsdns-40.org.</Value></ResourceRecord><ResourceRecord><Value>ns-919.awsdns-50.net.</Value></ResourceRecord><ResourceRecord><Value>ns-1622.awsdns-10.co.uk.</Value></ResourceRecord></ResourceRecords></ResourceRecordSet><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>SOA</Type><TTL>900</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400</Value></ResourceRecord></ResourceRecords></ResourceRecordSet></ResourceRecordSets><IsTruncated>false</IsTruncated><MaxItems>100</MaxItems></ListResourceRecordSetsResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:03 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone/ZOM0SVSS1HS66/rrset
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 687a6cfe-b494-11e3-b082-1f874010f398
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '928'
+      Date:
+      - Wed, 26 Mar 2014 03:12:04 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ListResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ResourceRecordSets><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>NS</Type><TTL>172800</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com.</Value></ResourceRecord><ResourceRecord><Value>ns-1351.awsdns-40.org.</Value></ResourceRecord><ResourceRecord><Value>ns-919.awsdns-50.net.</Value></ResourceRecord><ResourceRecord><Value>ns-1622.awsdns-10.co.uk.</Value></ResourceRecord></ResourceRecords></ResourceRecordSet><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>SOA</Type><TTL>900</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400</Value></ResourceRecord></ResourceRecords></ResourceRecordSet></ResourceRecordSets><IsTruncated>false</IsTruncated><MaxItems>100</MaxItems></ListResourceRecordSetsResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:05 GMT
+- request:
+    method: get
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone/ZOM0SVSS1HS66/rrset
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 68da4047-b494-11e3-89cf-5758c3974044
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '928'
+      Date:
+      - Wed, 26 Mar 2014 03:12:05 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ListResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ResourceRecordSets><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>NS</Type><TTL>172800</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com.</Value></ResourceRecord><ResourceRecord><Value>ns-1351.awsdns-40.org.</Value></ResourceRecord><ResourceRecord><Value>ns-919.awsdns-50.net.</Value></ResourceRecord><ResourceRecord><Value>ns-1622.awsdns-10.co.uk.</Value></ResourceRecord></ResourceRecords></ResourceRecordSet><ResourceRecordSet><Name>morninglightmountain.com.</Name><Type>SOA</Type><TTL>900</TTL><ResourceRecords><ResourceRecord><Value>ns-151.awsdns-18.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400</Value></ResourceRecord></ResourceRecords></ResourceRecordSet></ResourceRecordSets><IsTruncated>false</IsTruncated><MaxItems>100</MaxItems></ListResourceRecordSetsResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:06 GMT
+- request:
+    method: post
+    uri: https://route53.amazonaws.com/2012-12-12/hostedzone/ZOM0SVSS1HS66/rrset
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2012-12-12/">
+          <ChangeBatch>
+            <Changes>
+              <Change>
+                <Action>CREATE</Action>
+                <ResourceRecordSet>
+                  <Name>www.morninglightmountain.com.</Name>
+                  <Type>A</Type>
+                  <AliasTarget>
+                    <HostedZoneId>Z3AQBSTGFYJSTF</HostedZoneId>
+                    <DNSName>s3-website-us-east-1.amazonaws.com</DNSName>
+                    <EvaluateTargetHealth>false</EvaluateTargetHealth>
+                  </AliasTarget>
+                </ResourceRecordSet>
+              </Change>
+            </Changes>
+          </ChangeBatch>
+        </ChangeResourceRecordSetsRequest>
+    headers:
+      Date:
+      - Wed, 26 Mar 2014 03:11:52 GMT
+      X-Amzn-Authorization:
+      - AWS3-HTTPS AWSAccessKeyId=AKIAIRPH77MMWGGE5MWA,Algorithm=HmacSHA256,Signature=PlHStaXIT2KPyuDJUcC9wwF7zUJQAHuJZMJX+ev0Ej8=
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amzn-Requestid:
+      - 69330ed2-b494-11e3-89cf-5758c3974044
+      Content-Type:
+      - text/xml
+      Content-Length:
+      - '276'
+      Date:
+      - Wed, 26 Mar 2014 03:12:06 GMT
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <ChangeResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2012-12-12/"><ChangeInfo><Id>/change/C341QOOIKC1TGY</Id><Status>PENDING</Status><SubmittedAt>2014-03-26T03:12:06.592Z</SubmittedAt></ChangeInfo></ChangeResourceRecordSetsResponse>
+    http_version:
+  recorded_at: Wed, 26 Mar 2014 03:12:06 GMT
+recorded_with: VCR 2.8.0

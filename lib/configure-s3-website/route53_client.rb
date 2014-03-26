@@ -2,8 +2,9 @@ require 'route53'
 
 module ConfigureS3Website
   class Route53Client
-    def initialize(options)
+    def initialize(options, standard_input)
       @config_source = options[:config_source]
+      @standard_input = standard_input
 
       # Set up the connection to route53 and store in @conn
       @conn = Route53::Connection.new(@config_source.s3_access_key_id, @config_source.s3_secret_access_key)
@@ -53,7 +54,7 @@ module ConfigureS3Website
         # Ask the user if he/she wants to delete & recreate the route
         puts "A route already exists for #{url}"
         puts 'Do you want to re-create the existing entry and point it to your s3 bucket/Cloud Front?[y/N]'
-        case gets.chomp
+        case @standard_input.gets.chomp
           when /(y|Y)/
             create_route(url, zone) if remove_route(url, zone)
         end
@@ -134,7 +135,7 @@ module ConfigureS3Website
     def ask_user_to_create_zone(domain)
       if not hosted_zone_exits?(domain) # We need to have the user create the zone first.
         puts "A hosted zone for #{domain} does not exist, create one now?[y/N]?"
-        case gets.chomp
+        case @standard_input.gets.chomp
           when /(y|Y)/
             # Create a new zone object
             zone = Route53::Zone.new(domain, nil, @conn)
