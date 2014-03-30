@@ -50,8 +50,13 @@ module ConfigureS3Website
 
     def cloudfront_distribution_id=(dist_id)
       @config['cloudfront_distribution_id'] = dist_id
-      File.open(@yaml_file_path, 'w') do |yaml_file|
-        yaml_file.puts @config.to_yaml
+      file_contents = File.open(@yaml_file_path).read
+      File.open(@yaml_file_path, 'w') do |file|
+        result = file_contents.gsub(
+          /(s3_bucket:.*$)/,
+          "\\1\ncloudfront_distribution_id: #{dist_id}"
+        )
+        file.write result
       end
     end
 

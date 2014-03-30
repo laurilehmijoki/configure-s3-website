@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.3
+
+* Do not override ERB code when adding CloudFront dist
+
 ## 1.5.2
 
 * Support location constraint eu-west-1
