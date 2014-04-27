@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.4
+
+* Remove usage of the deprecated OpenSSL::Digest::Digest
+
 ## 1.5.3
 
 * Do not override ERB code when adding CloudFront dist
