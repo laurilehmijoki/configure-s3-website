@@ -56,7 +56,7 @@ module ConfigureS3Website
     end
 
     def self.create_s3_digest(path, method, config_source, date)
-      digest = OpenSSL::Digest::Digest.new('sha1')
+      digest = OpenSSL::Digest.new('sha1')
       method_string = method.to_s.match(/Net::HTTP::(\w+)/)[1].upcase
       can_string = "#{method_string}\n\n\n#{date}\n#{path}"
       hmac = OpenSSL::HMAC.digest(digest, config_source.s3_secret_access_key, can_string)
@@ -66,7 +66,7 @@ module ConfigureS3Website
     def self.create_cloudfront_digest(config_source, date)
       digest = Base64.encode64(
         OpenSSL::HMAC.digest(
-          OpenSSL::Digest::Digest.new('sha1'),
+          OpenSSL::Digest.new('sha1'),
           config_source.s3_secret_access_key,
           date
         )
