@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.5.5
+
+* Fix bug that prevented creating new CloudFront distributions in the EU region
+
 ## 1.5.4
 
 * Remove usage of the deprecated OpenSSL::Digest::Digest

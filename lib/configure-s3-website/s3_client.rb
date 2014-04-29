@@ -145,7 +145,7 @@ module ConfigureS3Website
     def location_constraints
       eu_west_1_region = {
         :region           => 'EU (Ireland)',
-        :website_hostname => 's3-website-eu-west-1.amazonaws.com',
+        :website_endpoint => 's3-website-eu-west-1.amazonaws.com',
         :endpoint         => 's3-eu-west-1.amazonaws.com'
       }
 
