@@ -229,6 +229,12 @@ Distribution](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/Cr
 [GET
 Distribution](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/GetDistribution.html) and [PUT Distribution Config](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/PutConfig.html) APIs.
 
+### Running headlessly
+
+Use the `--headless` option to run without user interaction. If you add the
+`--autocreate-cloudfront-dist` option, `configure-s3-website` will automatically
+create a CloudFront distribution for your S3 website.
+
 ## Development
 
 * This project uses [Semantic Versioning](http://semver.org)

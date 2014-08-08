@@ -4,6 +4,8 @@ When /^I run the configure-s3-website command with parameters$/ do |table|
   options, optparse = ConfigureS3Website::CLI.optparse_and_options
   optparse.parse! args_array_from_cucumber_table(table)
   @config_source = options[:config_source]
+  @headless = options[:headless]
+  @autocreate_cloudfront_dist = options[:autocreate_cloudfront_dist]
   @reset = create_reset_config_file_function @config_source.description
   @console_output = capture_stdout {
     ConfigureS3Website::Runner.run(options, stub_stdin)

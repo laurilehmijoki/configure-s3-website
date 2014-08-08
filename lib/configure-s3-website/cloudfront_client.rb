@@ -44,9 +44,16 @@ module ConfigureS3Website
     end
 
     def self.create_distribution_if_user_agrees(options, standard_input)
-      puts 'Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]'
-      case standard_input.gets.chomp
-      when /(y|Y)/ then create_distribution options
+      if options['autocreate-cloudfront-dist'] and options[:headless]
+        puts 'Creating a CloudFront distribution for your S3 website ...'
+        create_distribution options
+      elsif options[:headless]
+        # Do nothing
+      else
+        puts 'Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]'
+        case standard_input.gets.chomp
+        when /(y|Y)/ then create_distribution options
+        end
       end
     end
 

@@ -4,6 +4,14 @@ module ConfigureS3Website
       options = {}
       optparse = OptionParser.new do |opts|
         opts.banner = banner
+        opts.on('--headless',
+                'Run without interaction from the user. See the --autocreate-cloudfront-dist for more info.') do
+          options[:headless] = true
+        end
+        opts.on('--autocreate-cloudfront-dist',
+                'When running with --headless, automatically create a CloudFront distribution for your S3 website.') do
+          options['autocreate-cloudfront-dist'] = true
+        end
         opts.on('-f', '--config-file FILE',
                 'Pick credentials and the S3 bucket name from a config file') do
                 |yaml_file_path|

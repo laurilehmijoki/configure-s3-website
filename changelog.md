@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.6.0
+
+* Add switches `--headless` and `--autocreate-cloudfront-dist`
+
 ## 1.5.5
 
 * Fix bug that prevented creating new CloudFront distributions in the EU region
