@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.7.0
+
+* Add eu-central-1 Region
+
 ## 1.6.0
 
 * Add switches `--headless` and `--autocreate-cloudfront-dist`

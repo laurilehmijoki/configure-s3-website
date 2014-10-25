@@ -155,6 +155,7 @@ module ConfigureS3Website
         'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com',      :website_endpoint => 's3-website-us-west-1.amazonaws.com' },
         'EU'             => eu_west_1_region,
         'eu-west-1'      => eu_west_1_region,
+        'eu-central-1'   => { :region => 'EU (Frankfurt)',                :endpoint => 's3.eu-central-1.amazonaws.com',   :website_endpoint => 's3-website.eu-central-1.amazonaws.com' },
         'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com' },
         'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com' },
         'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com' },
