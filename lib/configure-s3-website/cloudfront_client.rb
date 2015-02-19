@@ -125,7 +125,7 @@ module ConfigureS3Website
               <CustomOriginConfig>
                 <HTTPPort>80</HTTPPort>
                 <HTTPSPort>443</HTTPSPort>
-                <OriginProtocolPolicy>match-viewer</OriginProtocolPolicy>
+                <OriginProtocolPolicy>http-only</OriginProtocolPolicy>
               </CustomOriginConfig>
             </Origin>
           </Items>

@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.7.1
+
+* Change CloudFront `OriginProtocolPolicy` to `http-only`
+
+  See <https://github.com/laurilehmijoki/s3_website/issues/152> for discussion.
+
 ## 1.7.0
 
 * Add eu-central-1 Region
