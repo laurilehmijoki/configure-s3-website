@@ -50,7 +50,7 @@ module ConfigureS3Website
       elsif options[:headless]
         # Do nothing
       else
-        puts 'Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]'
+        puts 'Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]'
         case standard_input.gets.chomp
         when /(y|Y)/ then create_distribution options
         end
