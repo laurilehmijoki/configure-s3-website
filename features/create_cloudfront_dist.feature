@@ -11,7 +11,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf now functions as a website
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
-      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+      Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]
         The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront
@@ -65,7 +65,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf now functions as a website
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
-      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+      Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]
         The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront
@@ -90,7 +90,7 @@ Feature: Create a CloudFront distribution
       Bucket website-via-cf now functions as a website
       Bucket website-via-cf is now readable to the whole world
       No redirects to configure for website-via-cf bucket
-      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+      Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]
         The distribution E45H2VN49KPDU at d3feoe9t5ufu01.cloudfront.net now delivers the origin website-via-cf.s3-website-us-east-1.amazonaws.com
           Please allow up to 15 minutes for the distribution to initialise
           For more information on the distribution, see https://console.aws.amazon.com/cloudfront

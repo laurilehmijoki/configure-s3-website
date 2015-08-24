@@ -11,7 +11,7 @@ Feature: configure an S3 bucket to function as a website
       Bucket name-of-a-new-bucket now functions as a website
       Bucket name-of-a-new-bucket is now readable to the whole world
       No redirects to configure for name-of-a-new-bucket bucket
-      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+      Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]
 
       """
 
@@ -59,6 +59,6 @@ Feature: configure an S3 bucket to function as a website
       Bucket website-with-redirects now functions as a website
       Bucket website-with-redirects is now readable to the whole world
       1 redirects configured for website-with-redirects bucket
-      Do you want to deliver your website via CloudFront, the CDN of Amazon? [y/N]
+      Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]
 
       """
