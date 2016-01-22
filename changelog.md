@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.7.3
+
+* see <https://github.com/laurilehmijoki/configure-s3-website/pull/13>
+
 ## 1.7.2
 
 * See <https://github.com/laurilehmijoki/configure-s3-website/pull/11>
