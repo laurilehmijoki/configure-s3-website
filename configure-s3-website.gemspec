@@ -9,7 +9,7 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Configure your AWS S3 bucket to function as a web site'
   s.bindir = 'bin'
 
-  s.add_dependency 'deep_merge', '= 1.0.0'
+  s.add_dependency 'deep_merge', '~> 1.0.0'
 
   s.add_development_dependency 'rspec', '~> 2.10.0'
   s.add_development_dependency 'rspec-expectations', '~> 2.10.0'
