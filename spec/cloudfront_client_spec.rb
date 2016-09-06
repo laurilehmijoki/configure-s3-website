@@ -8,8 +8,8 @@ describe ConfigureS3Website::CloudFrontClient do
     describe 'letting the user to override the default values' do
       let(:config_source) {
         mock = double('config_source')
-        mock.stub(:s3_bucket_name).and_return('test-bucket')
-        mock.stub(:s3_endpoint).and_return(nil)
+        allow(mock).to receive(:s3_bucket_name).and_return('test-bucket')
+        allow(mock).to receive(:s3_endpoint).and_return(nil)
         mock
       }
 
@@ -28,25 +28,25 @@ describe ConfigureS3Website::CloudFrontClient do
       }
 
       it 'allows the user to override default CloudFront settings' do
-        REXML::XPath.first(
+        expect(REXML::XPath.first(
           distribution_config_xml,
           '/DistributionConfig/DefaultCacheBehavior/MinTTL'
-        ).get_text.to_s.should eq('987')
+        ).get_text.to_s).to eq('987')
       end
 
       it 'retains the default values that are not overriden' do
-        REXML::XPath.first(
+        expect(REXML::XPath.first(
           distribution_config_xml,
           '/DistributionConfig/DefaultCacheBehavior/ViewerProtocolPolicy'
-        ).get_text.to_s.should eq('allow-all')
+        ).get_text.to_s).to eq('allow-all')
       end
     end
 
     describe 'inferring //Origins/Items/Origin/DomainName' do
       let(:config_source) {
         mock = double('config_source')
-        mock.stub(:s3_bucket_name).and_return('test-bucket')
-        mock.stub(:s3_endpoint).and_return('us-west-1')
+        allow(mock).to receive(:s3_bucket_name).and_return('test-bucket')
+        allow(mock).to receive(:s3_endpoint).and_return('us-west-1')
         mock
       }
 
@@ -61,10 +61,10 @@ describe ConfigureS3Website::CloudFrontClient do
       }
 
       it 'honors the endpoint of the S3 website' do
-        REXML::XPath.first(
+        expect(REXML::XPath.first(
           distribution_config_xml,
           '/DistributionConfig/Origins/Items/Origin/DomainName'
-        ).get_text.to_s.should eq('test-bucket.s3-website-us-west-1.amazonaws.com')
+        ).get_text.to_s).to eq('test-bucket.s3-website-us-west-1.amazonaws.com')
       end
     end
   end

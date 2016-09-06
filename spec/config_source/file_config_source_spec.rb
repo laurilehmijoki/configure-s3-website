@@ -12,13 +12,13 @@ describe ConfigureS3Website::FileConfigSource do
   }
 
   it 'can parse files that contain eRuby code' do
-    config_source.s3_access_key_id.should eq('hello world')
-    config_source.s3_secret_access_key.should eq('secret world')
-    config_source.s3_bucket_name.should eq('my-bucket')
+    expect(config_source.s3_access_key_id).to eq('hello world')
+    expect(config_source.s3_secret_access_key).to eq('secret world')
+    expect(config_source.s3_bucket_name).to eq('my-bucket')
   end
 
   it 'returns the yaml file path as description' do
-    config_source.description.should eq(yaml_file_path)
+    expect(config_source.description).to eq(yaml_file_path)
   end
 
   describe 'setter for cloudfront_distribution_id' do
@@ -42,7 +42,7 @@ s3_bucket: helloworld.com
     }
 
     it 'retains the ERB code' do
-      result.should include "<%= ENV['my-s3-secret'] %>"
+      expect(result).to include "<%= ENV['my-s3-secret'] %>"
     end
 
     it 'appends the CloudFront id as the last enabled value in the YAML file' do
@@ -54,7 +54,7 @@ cloudfront_distribution_id: xxyyzz
 
 # This is a comment
       }
-      result.should == expected
+      expect(result).to eq(expected)
     end
   end
 end
