@@ -14,15 +14,10 @@ spec = Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '~> 3'
   s.add_development_dependency 'rspec-expectations', '~> 3'
-  s.add_development_dependency 'cucumber', '~> 1.2.0'
-  s.add_development_dependency 'aruba', '~> 0.4.0'
   s.add_development_dependency 'rake', '~> 0.9.0'
-  s.add_development_dependency 'vcr', '~> 2.3.0'
-  s.add_development_dependency 'webmock', '~> 1.8.0'
-  s.add_development_dependency 'json', '~> 1.7.7'
 
   s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 end
