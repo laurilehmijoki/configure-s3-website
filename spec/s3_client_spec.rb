@@ -42,6 +42,21 @@ describe ConfigureS3Website::S3Client do
     end
   end
 
+  context 'bucket policy' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs.yml')
+    }
+
+    it 'sets the bucket readable to the whole world' do
+      allow_any_instance_of(Aws::S3::Client).to receive(:put_bucket_policy).with(
+        hash_including(
+          :policy => "{\n          \"Version\":\"2008-10-17\",\n          \"Statement\":[{\n            \"Sid\":\"PublicReadForGetBucketObjects\",\n            \"Effect\":\"Allow\",\n            \"Principal\": { \"AWS\": \"*\" },\n            \"Action\":[\"s3:GetObject\"],\n            \"Resource\":[\"arn:aws:s3:::my-bucket/*\"]\n          }]\n        }"
+        )
+      )
+      ConfigureS3Website::S3Client.configure_website({config_source: config_source})
+    end
+  end
+
   context 'redirect rules' do
     let(:config_source) {
       ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs_with_routing_rules.yml')
