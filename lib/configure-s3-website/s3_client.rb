@@ -3,6 +3,7 @@ require 'openssl'
 require 'digest/sha1'
 require 'digest/md5'
 require 'net/https'
+require 'aws-sdk'
 
 module ConfigureS3Website
   class S3Client
@@ -11,8 +12,7 @@ module ConfigureS3Website
       begin
         enable_website_configuration(config_source)
         make_bucket_readable_to_everyone(config_source)
-        configure_bucket_redirects(config_source)
-      rescue NoSuchBucketError
+      rescue Aws::S3::Errors::NoSuchBucket
         create_bucket(config_source)
         retry
       end
@@ -20,103 +20,86 @@ module ConfigureS3Website
 
     private
 
+    def self.s3(config_source)
+      s3 = Aws::S3::Client.new(
+        region: config_source.s3_endpoint || 'us-east-1',
+        access_key_id: config_source.s3_access_key_id,
+        secret_access_key: config_source.s3_secret_access_key
+      )
+    end
+
     def self.enable_website_configuration(config_source)
-      body = %|
-        <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
-          <IndexDocument>
-            <Suffix>#{config_source.index_document || "index.html"}</Suffix>
-          </IndexDocument>
-          <ErrorDocument>
-            <Key>#{config_source.error_document || "error.html"}</Key>
-          </ErrorDocument>
-        </WebsiteConfiguration>
-      |
-      HttpHelper.call_s3_api(
-        path = "/#{config_source.s3_bucket_name}/?website",
-        method = Net::HTTP::Put,
-        body = body,
-        config_source = config_source
-      )
-      puts "Bucket #{config_source.s3_bucket_name} now functions as a website"
-    end
-
-    def self.make_bucket_readable_to_everyone(config_source)
-      policy_json = %|{
-        "Version":"2008-10-17",
-        "Statement":[{
-          "Sid":"PublicReadForGetBucketObjects",
-          "Effect":"Allow",
-          "Principal": { "AWS": "*" },
-          "Action":["s3:GetObject"],
-          "Resource":["arn:aws:s3:::#{config_source.s3_bucket_name}/*"]
-        }]
-      }|
-      HttpHelper.call_s3_api(
-        path = "/#{config_source.s3_bucket_name}/?policy",
-        method = Net::HTTP::Put,
-        body = policy_json,
-        config_source = config_source
-      )
-      puts "Bucket #{config_source.s3_bucket_name} is now readable to the whole world"
-    end
-
-    def self.configure_bucket_redirects(config_source)
-      routing_rules = config_source.routing_rules
-      if routing_rules.is_a?(Array) && routing_rules.any?
-        body = %|
-          <WebsiteConfiguration xmlns='http://s3.amazonaws.com/doc/2006-03-01/'>
-            <IndexDocument>
-              <Suffix>#{config_source.index_document || "index.html"}</Suffix>
-            </IndexDocument>
-            <ErrorDocument>
-              <Key>#{config_source.error_document || "error.html"}</Key>
-            </ErrorDocument>
-            <RoutingRules>
-        |
-        routing_rules.each do |routing_rule|
-          body << %|
-              <RoutingRule>
-          |
-          body << XmlHelper.hash_to_api_xml(routing_rule, 7)
-          body << %|
-              </RoutingRule>
-          |
+      routing_rules =
+        if config_source.routing_rules && config_source.routing_rules.is_a?(Array)
+          config_source.routing_rules.map { |rule|
+            Hash[
+              rule.map { |rule_key, rule_value|
+                [
+                  rule_key.to_sym,
+                  Hash[ # Assume that each rule value is a Hash
+                    rule_value.map { |redirect_rule_key, redirect_rule_value|
+                      [
+                        redirect_rule_key.to_sym,
+                        redirect_rule_key == "http_redirect_code" ?
+                          redirect_rule_value.to_s
+                          #redirect_rule_value.to_s  # Permit numeric redirect values in the YAML config file. (The S3 API does not allow numeric redirect values, hence this block of code.)
+                          :
+                          redirect_rule_value
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          }
+        else
+          nil
         end
-        body << %|
-            </RoutingRules>
-          </WebsiteConfiguration>
-        |
-
-        HttpHelper.call_s3_api(
-          path = "/#{config_source.s3_bucket_name}/?website",
-          method = Net::HTTP::Put,
-          body = body,
-          config_source = config_source
-        )
+      s3(config_source).put_bucket_website({
+        bucket: config_source.s3_bucket_name,
+        website_configuration: {
+          index_document: {
+            suffix: config_source.index_document || "index.html"
+          },
+          error_document: {
+            key: config_source.error_document || "error.html"
+          },
+          routing_rules: routing_rules
+        }
+      })
+      puts "Bucket #{config_source.s3_bucket_name} now functions as a website"
+      if routing_rules && routing_rules.any?
         puts "#{routing_rules.size} redirects configured for #{config_source.s3_bucket_name} bucket"
       else
         puts "No redirects to configure for #{config_source.s3_bucket_name} bucket"
       end
     end
 
+    def self.make_bucket_readable_to_everyone(config_source)
+      s3(config_source).put_bucket_policy({
+        bucket: config_source.s3_bucket_name,
+        policy: %|{
+          "Version":"2008-10-17",
+          "Statement":[{
+            "Sid":"PublicReadForGetBucketObjects",
+            "Effect":"Allow",
+            "Principal": { "AWS": "*" },
+            "Action":["s3:GetObject"],
+            "Resource":["arn:aws:s3:::#{config_source.s3_bucket_name}/*"]
+          }]
+        }|
+      })
+      puts "Bucket #{config_source.s3_bucket_name} is now readable to the whole world"
+    end
+
     def self.create_bucket(config_source)
       endpoint = Endpoint.new(config_source.s3_endpoint || '')
-      body = if endpoint.region == 'US Standard'
-               '' # The standard endpoint does not need a location constraint
-             else
-        %|
-          <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-            <LocationConstraint>#{endpoint.location_constraint}</LocationConstraint>
-          </CreateBucketConfiguration >
-         |
-             end
-
-      HttpHelper.call_s3_api(
-        path = "/#{config_source.s3_bucket_name}",
-        method = Net::HTTP::Put,
-        body = body,
-        config_source = config_source
-      )
+      s3(config_source).create_bucket({
+        bucket: config_source.s3_bucket_name,
+        create_bucket_configuration: {
+          location_constraint: endpoint.region == 'US Standard' ? 'us-east-1' : endpoint.location_constraint
+        }
+      })
       puts "Created bucket %s in the %s Region" %
         [
           config_source.s3_bucket_name,
@@ -172,5 +155,3 @@ end
 class InvalidS3LocationConstraintError < StandardError
 end
 
-class NoSuchBucketError < StandardError
-end

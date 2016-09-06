@@ -1,117 +1,78 @@
 require 'rspec'
 require 'configure-s3-website'
 
+Aws.config[:stub_responses] = true
+
 describe ConfigureS3Website::S3Client do
-  describe '#enable_website_configuration' do
-    context 'custom index and error documents' do
-      let(:config_source) {
-        ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs.yml')
-      }
+  context 'bucket name' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs.yml')
+    }
 
-      it 'calls the S3 API with the custom index document' do
-        expect_api_call(
-          :enable_website_configuration,
-          /<IndexDocument>\s*<Suffix>default.html<\/Suffix>\s*<\/IndexDocument>/,
-          config_source
+    it 'calls the S3 API with the correct bucket name' do
+      allow_any_instance_of(Aws::S3::Client).to receive(:put_bucket_website).with(
+        hash_including(
+          :bucket => "my-bucket"
         )
-      end
-
-      it 'calls the S3 API with the custom error document' do
-        expect_api_call(
-          :enable_website_configuration,
-          /<ErrorDocument>\s*<Key>404.html<\/Key>\s*<\/ErrorDocument>/,
-          config_source
-        )
-      end
-    end
-  end
-
-  describe '#configure_bucket_redirects' do
-    context 'custom index and error documents' do
-      let(:config_source) {
-        ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs_with_routing_rules.yml')
-      }
-
-      it 'calls the S3 API with the custom index document' do
-        expect_api_call(
-          :configure_bucket_redirects,
-          /<IndexDocument>\s*<Suffix>default.html<\/Suffix>\s*<\/IndexDocument>/,
-          config_source
-        )
-      end
-
-      it 'calls the S3 API with the custom error document' do
-        expect_api_call(
-          :configure_bucket_redirects,
-          /<ErrorDocument>\s*<Key>missing.html<\/Key>\s*<\/ErrorDocument>/,
-          config_source
-        )
-      end
-    end
-  end
-
-  describe '#create_bucket' do
-    context 'invalid s3_endpoint value' do
-      let(:config_source) {
-        mock = double('config_source')
-        mock.stub(:s3_endpoint).and_return('invalid-location-constraint')
-        mock
-      }
-
-      it 'throws an error' do
-        expect {
-          extractor = ConfigureS3Website::S3Client.
-          send(:create_bucket, config_source)
-        }.to raise_error(InvalidS3LocationConstraintError)
-      end
-    end
-
-    context 'no s3_endpoint value' do
-      let(:config_source) {
-        ConfigureS3Website::FileConfigSource.new('spec/sample_files/_config_file.yml')
-      }
-
-      it 'calls the S3 api without request body' do
-        ConfigureS3Website::HttpHelper.should_receive(:call_s3_api).
-          with(anything(), anything(), '', anything())
-        ConfigureS3Website::S3Client.send(:create_bucket,
-                                          config_source)
-      end
-    end
-
-    context 'valid s3_endpoint value' do
-      let(:config_source) {
-        ConfigureS3Website::FileConfigSource.new(
-          'spec/sample_files/_config_file_oregon.yml'
       )
-      }
-
-      it 'calls the S3 api with location constraint XML' do
-        ConfigureS3Website::HttpHelper.should_receive(:call_s3_api).
-          with(anything(), anything(),
-        %|
-          <CreateBucketConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-            <LocationConstraint>us-west-2</LocationConstraint>
-          </CreateBucketConfiguration >
-         |, anything())
-        ConfigureS3Website::S3Client.send(:create_bucket,
-                                          config_source)
-      end
+      ConfigureS3Website::S3Client.configure_website({config_source: config_source})
     end
   end
 
-  def expect_api_call(operation, body, config_source)
-    ConfigureS3Website::HttpHelper.
-      should_receive(:call_s3_api).
-      with(
-        anything(),
-        anything(),
-        body,
-        anything()
-    )
-    ConfigureS3Website::S3Client.send(
-      operation,
-      config_source
-    )
+  context 'custom index and error documents' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs.yml')
+    }
+
+    it 'calls the S3 API with the custom index and error documents' do
+      allow_any_instance_of(Aws::S3::Client).to receive(:put_bucket_website).with(
+        hash_including(
+          :website_configuration=> {
+            :index_document => {
+              :suffix => "default.html"
+            },
+            :error_document => {
+              :key => "404.html"
+            },
+            :routing_rules => nil
+          }
+        )
+      )
+      ConfigureS3Website::S3Client.configure_website({config_source: config_source})
+    end
+  end
+
+  context 'redirect rules' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs_with_routing_rules.yml')
+    }
+
+    it 'calls the S3 API with the redirect rules settings' do
+      allow_any_instance_of(Aws::S3::Client).to receive(:put_bucket_website).with(
+        hash_including(
+          :website_configuration => {
+            :index_document => {
+              :suffix => "default.html"
+            },
+            :error_document => {
+              :key => "missing.html"
+            },
+            :routing_rules => [
+              {
+                :condition => {
+                  :key_prefix_equals => "blog/some_path"
+                },
+                :redirect => {
+                  :host_name => "blog.example.com",
+                  :replace_key_prefix_with => "some_new_path/",
+                  :http_redirect_code => "301"
+                }
+              }
+            ]
+          }
+        )
+      )
+      ConfigureS3Website::S3Client.configure_website({config_source: config_source})
+    end
   end
 end
