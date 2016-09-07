@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.7.4
+
+* Support all AWS regions
+
 ## 1.7.3
 
 * see <https://github.com/laurilehmijoki/configure-s3-website/pull/13>

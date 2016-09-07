@@ -25,7 +25,12 @@ module ConfigureS3Website
     end
 
     def s3_endpoint
-      @config['s3_endpoint']
+      endpoint = @config['s3_endpoint'] || 'us-east-1'
+      if endpoint == 'EU'
+        'eu-west-1'
+      else
+        endpoint
+      end
     end
 
     def routing_rules
