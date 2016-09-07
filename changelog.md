@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 1.7.5
+
+* Fix CreateBucket broken in 1.7.4
+
 ## 1.7.4
 
 * Support all AWS regions
