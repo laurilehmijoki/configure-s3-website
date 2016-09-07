@@ -95,9 +95,14 @@ module ConfigureS3Website
     def self.create_bucket(config_source)
       s3(config_source).create_bucket({
         bucket: config_source.s3_bucket_name,
-        create_bucket_configuration: {
-          location_constraint: config_source.s3_endpoint
-        }
+        create_bucket_configuration: 
+        if config_source.s3_endpoint && config_source.s3_endpoint != 'us-east-1'
+          {
+            location_constraint: config_source.s3_endpoint
+          }
+        else
+          nil
+        end
       })
       puts "Created bucket %s in the %s Region" %
         [
