@@ -113,7 +113,7 @@ module ConfigureS3Website
     end
 
     def self.distribution_config_xml(config_source, custom_cf_settings)
-      domain_name = "#{config_source.s3_bucket_name}.#{Endpoint.by_config_source(config_source).website_hostname}"
+      domain_name = "#{config_source.s3_bucket_name}.#{EndpointHelper.s3_website_hostname(config_source.s3_endpoint)}"
       %|
       <DistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/">
         <Origins>

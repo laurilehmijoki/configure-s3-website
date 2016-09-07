@@ -22,7 +22,7 @@ module ConfigureS3Website
 
     def self.s3(config_source)
       s3 = Aws::S3::Client.new(
-        region: config_source.s3_endpoint || 'us-east-1',
+        region: config_source.s3_endpoint,
         access_key_id: config_source.s3_access_key_id,
         secret_access_key: config_source.s3_secret_access_key
       )
@@ -93,65 +93,18 @@ module ConfigureS3Website
     end
 
     def self.create_bucket(config_source)
-      endpoint = Endpoint.new(config_source.s3_endpoint || '')
       s3(config_source).create_bucket({
         bucket: config_source.s3_bucket_name,
         create_bucket_configuration: {
-          location_constraint: endpoint.region == 'US Standard' ? 'us-east-1' : endpoint.location_constraint
+          location_constraint: config_source.s3_endpoint
         }
       })
       puts "Created bucket %s in the %s Region" %
         [
           config_source.s3_bucket_name,
-          endpoint.region
+          config_source.s3_endpoint
         ]
     end
   end
-end
-
-private
-
-module ConfigureS3Website
-  class Endpoint
-    attr_reader :region, :location_constraint, :hostname, :website_hostname
-
-    def initialize(location_constraint)
-      raise InvalidS3LocationConstraintError unless
-        location_constraints.has_key?location_constraint
-      @region = location_constraints.fetch(location_constraint)[:region]
-      @hostname = location_constraints.fetch(location_constraint)[:endpoint]
-      @website_hostname = location_constraints.fetch(location_constraint)[:website_endpoint]
-      @location_constraint = location_constraint
-    end
-
-    # http://docs.amazonwebservices.com/general/latest/gr/rande.html#s3_region
-    def location_constraints
-      eu_west_1_region = {
-        :region           => 'EU (Ireland)',
-        :website_endpoint => 's3-website-eu-west-1.amazonaws.com',
-        :endpoint         => 's3-eu-west-1.amazonaws.com'
-      }
-
-      {
-        ''               => { :region => 'US Standard',                   :endpoint => 's3.amazonaws.com',                :website_endpoint => 's3-website-us-east-1.amazonaws.com' },
-        'us-west-2'      => { :region => 'US West (Oregon)',              :endpoint => 's3-us-west-2.amazonaws.com',      :website_endpoint => 's3-website-us-west-2.amazonaws.com' },
-        'us-west-1'      => { :region => 'US West (Northern California)', :endpoint => 's3-us-west-1.amazonaws.com',      :website_endpoint => 's3-website-us-west-1.amazonaws.com' },
-        'EU'             => eu_west_1_region,
-        'eu-west-1'      => eu_west_1_region,
-        'eu-central-1'   => { :region => 'EU (Frankfurt)',                :endpoint => 's3.eu-central-1.amazonaws.com',   :website_endpoint => 's3-website.eu-central-1.amazonaws.com' },
-        'ap-southeast-1' => { :region => 'Asia Pacific (Singapore)',      :endpoint => 's3-ap-southeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-1.amazonaws.com' },
-        'ap-southeast-2' => { :region => 'Asia Pacific (Sydney)',         :endpoint => 's3-ap-southeast-2.amazonaws.com', :website_endpoint => 's3-website-ap-southeast-2.amazonaws.com' },
-        'ap-northeast-1' => { :region => 'Asia Pacific (Tokyo)',          :endpoint => 's3-ap-northeast-1.amazonaws.com', :website_endpoint => 's3-website-ap-northeast-1.amazonaws.com' },
-        'sa-east-1'      => { :region => 'South America (Sao Paulo)',     :endpoint => 's3-sa-east-1.amazonaws.com',      :website_endpoint => 's3-website-sa-east-1.amazonaws.com' }
-      }
-    end
-
-    def self.by_config_source(config_source)
-      endpoint = Endpoint.new(config_source.s3_endpoint || '')
-    end
-  end
-end
-
-class InvalidS3LocationConstraintError < StandardError
 end
 

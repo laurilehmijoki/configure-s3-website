@@ -19,6 +19,23 @@ describe ConfigureS3Website::S3Client do
     end
   end
 
+  describe 'the EU region alias' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_config_file_EU.yml')
+    }
+
+    it 'translates into eu-west-1' do
+        allow_any_instance_of(Aws::S3::Client).to receive(:create_bucket).with(
+          hash_including(
+            create_bucket_configuration: {
+              location_constraint: 'eu-west-1'
+            }
+          )
+        )
+        ConfigureS3Website::S3Client.send(:create_bucket, config_source)
+    end
+  end
+
   context 'custom index and error documents' do
     let(:config_source) {
       ConfigureS3Website::FileConfigSource.new('spec/sample_files/_custom_index_and_error_docs.yml')
@@ -40,6 +57,38 @@ describe ConfigureS3Website::S3Client do
       )
       ConfigureS3Website::S3Client.configure_website({config_source: config_source})
     end
+  end
+
+  context 'create bucket' do
+    [
+      { :region => 'us-east-1' },
+      { :region => 'us-west-1' },
+      { :region => 'us-west-2' },
+      { :region => 'ap-south-1' },
+      { :region => 'ap-northeast-2' },
+      { :region => 'ap-southeast-1' },
+      { :region => 'ap-southeast-2' },
+      { :region => 'ap-northeast-1' },
+      { :region => 'eu-central-1' },
+      { :region => 'eu-west-1' },
+      { :region => 'sa-east-1' },
+    ].each { |conf|
+      it 'calls the S3 CreateBucket API with the correct location constraint' do
+        allow_any_instance_of(Aws::S3::Client).to receive(:create_bucket).with(
+          hash_including(
+            create_bucket_configuration: {
+              location_constraint: conf[:region]
+            }
+          )
+        )
+        config_source = double('config_source')
+        allow(config_source).to receive(:s3_access_key_id).and_return('test')
+        allow(config_source).to receive(:s3_secret_access_key).and_return('test')
+        allow(config_source).to receive(:s3_bucket_name).and_return('test-bucket')
+        allow(config_source).to receive(:s3_endpoint).and_return(conf[:region])
+        ConfigureS3Website::S3Client.send(:create_bucket, config_source)
+      end
+    }
   end
 
   context 'bucket policy' do
