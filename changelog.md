@@ -2,6 +2,40 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## Next
+
+### Breaking changes
+
+Since the CloudFront integration now uses the official Ruby AWS SDK, the
+accepted format of the `cloudfront_distribution_config` is slightly different.
+
+Below are some examples of changes that you have to perform, depending on the
+contents of your `cloudfront_distribution_config` setting.
+
+* Rename `min_TTL` -> `min_ttl`
+* Change
+
+    ```yaml
+    aliases:
+      quantity: 1
+      items:
+        CNAME: my.site.net
+    ```
+
+    to
+
+    ```yaml
+    aliases:
+      quantity: 1
+      items:
+        - my.site.net
+    ```
+
+* There might be other incompatible settings in your old configuration, but
+  should them exist, the AWS SDK client will print you a helpful error and then
+  safely exit. If this happens, just fix the problems that client reports and
+  try again.
+
 ## 1.7.5
 
 * Fix CreateBucket broken in 1.7.4
