@@ -20,7 +20,8 @@ module ConfigureS3Website
         deep_symbolize(custom_distribution_config.merge({
           caller_reference: live_config.distribution.distribution_config.caller_reference,
           comment: 'Updated by the configure-s3-website gem'
-        }))
+        })),
+        ConfigureS3Website::deep_merge_options
       )
       cloudfront(config_source).update_distribution({
         distribution_config: custom_distribution_config_with_caller_ref,
@@ -139,7 +140,7 @@ module ConfigureS3Website
             'quantity' => '0'
           },
           'price_class' => 'PriceClass_All'
-        }.deep_merge!(custom_cf_settings)
+        }.deep_merge!(custom_cf_settings, ConfigureS3Website::deep_merge_options)
       }
     end
 
@@ -162,5 +163,10 @@ module ConfigureS3Website
         value
       end
     end
+  end
+  def self.deep_merge_options
+    {
+      :merge_hash_arrays => true
+    }
   end
 end

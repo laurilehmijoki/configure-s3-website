@@ -36,6 +36,15 @@ contents of your `cloudfront_distribution_config` setting.
   safely exit. If this happens, just fix the problems that client reports and
   try again.
 
+Also, the arrays in hashes are now merged:
+
+```
+source = {:x => [{:y => 1}]}
+dest   = {:x => [{:z => 2}]}
+# merge...
+Results: {:x => [{:y => 1, :z => 2}]}
+```
+
 ## 1.7.5
 
 * Fix CreateBucket broken in 1.7.4
