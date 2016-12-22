@@ -2,12 +2,13 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
-## Next
+## 2.0.0
 
 ### Breaking changes
 
-Since the CloudFront integration now uses the official Ruby AWS SDK, the
-accepted format of the `cloudfront_distribution_config` is slightly different.
+The CloudFront integration now uses the official Ruby AWS
+SDK. As a consequence, the accepted format of the
+`cloudfront_distribution_config` is slightly different.
 
 Below are some examples of changes that you have to perform, depending on the
 contents of your `cloudfront_distribution_config` setting.
@@ -33,8 +34,8 @@ contents of your `cloudfront_distribution_config` setting.
 
 * There might be other incompatible settings in your old configuration, but
   should them exist, the AWS SDK client will print you a helpful error and then
-  safely exit. If this happens, just fix the problems that client reports and
-  try again.
+  safely exit. If this happens, just fix the problems that the CloudFront client
+  reports and try again.
 
 Also, the arrays in hashes are now merged:
 
@@ -44,6 +45,20 @@ dest   = {:x => [{:z => 2}]}
 # merge...
 Results: {:x => [{:y => 1, :z => 2}]}
 ```
+
+With the help of array merging, given your config file contains the following
+setting:
+
+```yaml
+cloudfront_distribution_config:
+  origins:
+    items:
+      - origin_path: /subfolder
+```
+
+... `configure-s3-website` will include the `origin_path` setting within the
+properties of the first element in the `items` array of your distribution
+settings.
 
 ## 1.7.5
 
