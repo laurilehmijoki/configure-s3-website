@@ -1,5 +1,5 @@
-require "rexml/document"
-require "rexml/xpath"
+require "aws-sdk"
+require 'deep_merge'
 
 module ConfigureS3Website
   class CloudFrontClient
@@ -7,40 +7,29 @@ module ConfigureS3Website
       config_source = options[:config_source]
       puts "Detected an existing CloudFront distribution (id #{config_source.cloudfront_distribution_id}) ..."
 
-      # Get caller reference and ETag (will be required by the PUT config resource)
-      response = HttpHelper.call_cloudfront_api(
-        path = "/2012-07-01/distribution/#{config_source.cloudfront_distribution_id}/config",
-        method = Net::HTTP::Get,
-        body = '',
-        config_source
-      )
-      etag = response['ETag']
-      caller_reference = REXML::XPath.first(
-        REXML::Document.new(response.body),
-        '/DistributionConfig/CallerReference'
-      ).get_text.to_s
-
-      # Call the PUT config resource with the caller reference and ETag
-      custom_distribution_config = config_source.cloudfront_distribution_config || {}
-      custom_distribution_config_with_caller_ref = custom_distribution_config.merge({
-        'caller_reference' => caller_reference,
-        'comment' => 'Updated by the configure-s3-website gem'
+      live_config = cloudfront(config_source).get_distribution({
+        id: options[:config_source].cloudfront_distribution_id
       })
-      HttpHelper.call_cloudfront_api(
-        path = "/2012-07-01/distribution/#{options[:config_source].cloudfront_distribution_id}/config",
-        method = Net::HTTP::Put,
-        body = distribution_config_xml(
-          config_source,
-          custom_distribution_config_with_caller_ref
-        ),
-        config_source,
-        headers = { 'If-Match' => etag }
-      )
 
-      # Report
-      unless custom_distribution_config.empty?
-        print_report_on_custom_distribution_config custom_distribution_config
+      custom_distribution_config = config_source.cloudfront_distribution_config || {}
+      if custom_distribution_config.empty?
+        return
       end
+      live_distribution_config = live_config.distribution.distribution_config.to_hash
+      custom_distribution_config_with_caller_ref = live_distribution_config.deep_merge!(
+        deep_symbolize(custom_distribution_config.merge({
+          caller_reference: live_config.distribution.distribution_config.caller_reference,
+          comment: 'Updated by the configure-s3-website gem'
+        })),
+        ConfigureS3Website::deep_merge_options
+      )
+      cloudfront(config_source).update_distribution({
+        distribution_config: custom_distribution_config_with_caller_ref,
+        id: options[:config_source].cloudfront_distribution_id,
+        if_match: live_config.etag
+      })
+
+      print_report_on_custom_distribution_config custom_distribution_config_with_caller_ref
     end
 
     def self.create_distribution_if_user_agrees(options, standard_input)
@@ -59,19 +48,22 @@ module ConfigureS3Website
 
     private
 
+    def self.cloudfront(config_source)
+      Aws::CloudFront::Client.new(
+        region: 'us-east-1',
+        access_key_id: config_source.s3_access_key_id,
+        secret_access_key: config_source.s3_secret_access_key
+      )
+    end
+
     def self.create_distribution(options)
       config_source = options[:config_source]
       custom_distribution_config = config_source.cloudfront_distribution_config || {}
-      response_xml = REXML::Document.new(
-        HttpHelper.call_cloudfront_api(
-          '/2012-07-01/distribution',
-          Net::HTTP::Post,
-          distribution_config_xml(config_source, custom_distribution_config),
-          config_source
-        ).body
-      )
-      dist_id = REXML::XPath.first(response_xml, '/Distribution/Id').get_text
-      print_report_on_new_dist response_xml, dist_id, options, config_source
+      distribution = cloudfront(config_source).create_distribution(
+        deep_symbolize new_distribution_config(config_source, custom_distribution_config)
+      ).distribution
+      dist_id = distribution.id
+      print_report_on_new_dist distribution, dist_id, options, config_source
       config_source.cloudfront_distribution_id = dist_id.to_s
       puts "  Added setting 'cloudfront_distribution_id: #{dist_id}' into #{config_source.description}"
       unless custom_distribution_config.empty?
@@ -88,96 +80,67 @@ module ConfigureS3Website
         gsub(/^/, padding(left_padding))
     end
 
-    def self.print_report_on_new_dist(response_xml, dist_id, options, config_source)
+    def self.print_report_on_new_dist(distribution, dist_id, options, config_source)
       config_source = options[:config_source]
-      dist_domain_name = REXML::XPath.first(response_xml, '/Distribution/DomainName').get_text
-      s3_website_domain_name = REXML::XPath.first(
-        response_xml,
-        '/Distribution/DistributionConfig/Origins/Items/Origin/DomainName'
-      ).get_text
-      puts "  The distribution #{dist_id} at #{dist_domain_name} now delivers the origin #{s3_website_domain_name}"
+      puts "  The distribution #{dist_id} at #{distribution.domain_name} now delivers the origin #{distribution.distribution_config.origins.items[0].domain_name}"
       puts '    Please allow up to 15 minutes for the distribution to initialise'
       puts '    For more information on the distribution, see https://console.aws.amazon.com/cloudfront'
       if options[:verbose]
         puts '  Below is the response from the CloudFront API:'
-        print_verbose_response_from_cloudfront(response_xml)
+        puts distribution
       end
     end
 
-    def self.print_verbose_response_from_cloudfront(response_xml, left_padding = 4)
-      lines = []
-      response_xml.write(lines, 2)
-      puts lines.join().
-        gsub(/^/, "" + padding(left_padding)).
-        gsub(/\s$/, "")
-    end
-
-    def self.distribution_config_xml(config_source, custom_cf_settings)
-      domain_name = "#{config_source.s3_bucket_name}.#{EndpointHelper.s3_website_hostname(config_source.s3_endpoint)}"
-      %|
-      <DistributionConfig xmlns="http://cloudfront.amazonaws.com/doc/2012-07-01/">
-        <Origins>
-          <Quantity>1</Quantity>
-          <Items>
-            <Origin>
-              <Id>#{origin_id config_source}</Id>
-              <DomainName>#{domain_name}</DomainName>
-              <CustomOriginConfig>
-                <HTTPPort>80</HTTPPort>
-                <HTTPSPort>443</HTTPSPort>
-                <OriginProtocolPolicy>http-only</OriginProtocolPolicy>
-              </CustomOriginConfig>
-            </Origin>
-          </Items>
-        </Origins>
-        #{
-          require 'deep_merge'
-          settings = default_cloudfront_settings config_source
-          settings.deep_merge! custom_cf_settings
-          XmlHelper.hash_to_api_xml(settings)
-        }
-      </DistributionConfig>
-      |
-    end
-
-    # Changing these default settings probably necessitates a
-    # backward incompatible release.
-    #
-    # If you change these settings, remember to update also the README.md.
-    def self.default_cloudfront_settings(config_source)
+    def self.new_distribution_config(config_source, custom_cf_settings)
       {
-        'caller_reference' => 'configure-s3-website gem ' + Time.now.to_s,
-        'default_root_object' => 'index.html',
-        'logging' => {
-          'enabled' => 'false',
-          'include_cookies' => 'false',
-          'bucket' => '',
-          'prefix' => ''
-        },
-        'enabled' => 'true',
-        'comment' => 'Created by the configure-s3-website gem',
-        'aliases' => {
-          'quantity' => '0'
-        },
-        'default_cache_behavior' => {
-          'target_origin_id' => (origin_id config_source),
-          'trusted_signers' => {
+        'distribution_config' => {
+          'caller_reference' => 'configure-s3-website gem ' + Time.now.to_s,
+          'default_root_object' => 'index.html',
+          'origins' => {
+            'quantity' => 1,
+            'items' => [
+              {
+                'id' => (origin_id config_source),
+                'domain_name' => "#{config_source.s3_bucket_name}.#{EndpointHelper.s3_website_hostname(config_source.s3_endpoint)}",
+                'custom_origin_config' => {
+                  'http_port' => 80,
+                  'https_port' => 443,
+                  'origin_protocol_policy' => 'http-only'
+                }
+              }
+            ]
+          },
+          'logging' => {
             'enabled' => 'false',
+            'include_cookies' => 'false',
+            'bucket' => '',
+            'prefix' => ''
+          },
+          'enabled' => 'true',
+          'comment' => 'Created by the configure-s3-website gem',
+          'aliases' => {
             'quantity' => '0'
           },
-          'forwarded_values' => {
-            'query_string' => 'true',
-            'cookies' => {
-              'forward' => 'all'
-            }
+          'default_cache_behavior' => {
+            'target_origin_id' => (origin_id config_source),
+            'trusted_signers' => {
+              'enabled' => 'false',
+              'quantity' => '0'
+            },
+            'forwarded_values' => {
+              'query_string' => 'true',
+              'cookies' => {
+                'forward' => 'all'
+              }
+            },
+            'viewer_protocol_policy' => 'allow-all',
+            'min_ttl' => '86400'
           },
-          'viewer_protocol_policy' => 'allow-all',
-          'min_TTL' => '86400'
-        },
-        'cache_behaviors' => {
-          'quantity' => '0'
-        },
-        'price_class' => 'PriceClass_All'
+          'cache_behaviors' => {
+            'quantity' => '0'
+          },
+          'price_class' => 'PriceClass_All'
+        }.deep_merge!(custom_cf_settings, ConfigureS3Website::deep_merge_options)
       }
     end
 
@@ -190,5 +153,20 @@ module ConfigureS3Website
       amount.times { padding << " " }
       padding
     end
+
+    def self.deep_symbolize(value)
+      if value.is_a? Hash
+        Hash[value.map { |k,v| [k.to_sym, deep_symbolize(v)] }]
+      elsif value.is_a? Array
+        value.map { |v| deep_symbolize(v) }
+      else
+        value
+      end
+    end
+  end
+  def self.deep_merge_options
+    {
+      :merge_hash_arrays => true
+    }
   end
 end
