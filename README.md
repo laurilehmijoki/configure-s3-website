@@ -70,11 +70,11 @@ file. For example:
 ```yaml
 cloudfront_distribution_config:
   default_cache_behavior:
-    min_TTL: 600
+    min_ttl: 600
   aliases:
     quantity: 1
     items:
-      CNAME: your.domain.net
+      - your.domain.net
 ```
 
 See the section below for more information about the valid values of the
@@ -94,12 +94,12 @@ Let's say your config file contains the following fragment:
 cloudfront_distribution_id: AXSAXSSE134
 cloudfront_distribution_config:
   default_cache_behavior:
-    min_TTL: 600
+    min_ttl: 600
   default_root_object: index.json
 ```
 
 When you invoke `configure-s3-website`, it will overwrite the default value of
-*default_cache_behavior's* *min_TTL* as well as the default value of
+*default_cache_behavior's* *min_ttl* as well as the default value of
 *default_root_object* setting in the [default distribution configs](#default-distribution-configs).
 
 This gem generates `<DistributionConfig>` of the CloudFront REST API. For
@@ -151,7 +151,7 @@ Type](http://docs.aws.amazon.com/AmazonCloudFront/latest/APIReference/Distributi
       }
     },
     'viewer_protocol_policy' => 'allow-all',
-    'min_TTL' => '86400'
+    'min_ttl' => '86400'
   },
   'cache_behaviors' => {
     'quantity' => '0'
