@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 2.1.0
+
+* Add ability to use an AWS profile instead of explicit `s3_id` and `s3_secret`
+
 ## 2.0.0
 
 ### Breaking changes
