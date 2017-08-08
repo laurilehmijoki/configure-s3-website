@@ -78,10 +78,14 @@ module ConfigureS3Website
     end
 
     def self.validate_config(config, yaml_file_path)
-      required_keys = %w{s3_bucket}
-      missing_keys = required_keys.reject do |key| config.keys.include?key end
-      unless missing_keys.empty?
-        raise "File #{yaml_file_path} does not contain the required key(s) #{missing_keys.join(', ')}"
+      # make sure the bucket name is configured at a minimum
+      if not config.keys.include?'s3_bucket'
+        raise "File #{yaml_file_path} does not contain the required key 's3_bucket'"
+      end
+
+      # check that either s3_id or profile is configured
+      if not (config.keys.include?'s3_id' or config.keys.include?'profile')
+        raise "File #{yaml_file_path} does not contain either 's3_id' or 'profile'"
       end
     end
   end
