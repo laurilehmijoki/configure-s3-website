@@ -3,8 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/laurilehmijoki/configure-s3-website.png)](http://travis-ci.org/laurilehmijoki/configure-s3-website)
 [![Gem Version](https://fury-badge.herokuapp.com/rb/configure-s3-website.png)](http://badge.fury.io/rb/configure-s3-website)
 
-Configure an AWS S3 bucket to function as a website. Easily from the
-command-line interface.
+Configure an AWS S3 bucket to function as a website easily from a command-line interface.
 
 The bucket may or may not exist. If the bucket does not exist,
 `configure-s3-website` will create it.
@@ -17,7 +16,14 @@ For deploying websites to S3, consider using [s3_website](https://github.com/lau
 
 ## Usage
 
-Create a file that contains the S3 credentials and the name of the bucket:
+Create a file that contains the name of your AWS profile with access to S3 and the name of the bucket:
+
+```yaml
+profile: name-of-your-aws-profile-with-access
+s3_bucket: name-of-your-bucket
+```
+
+**or** create a file that contains the S3 credentials and the name of the bucket:
 
 ```yaml
 s3_id: your-aws-access-key

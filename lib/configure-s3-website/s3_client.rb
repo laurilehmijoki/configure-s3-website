@@ -21,11 +21,18 @@ module ConfigureS3Website
     private
 
     def self.s3(config_source)
-      s3 = Aws::S3::Client.new(
-        region: config_source.s3_endpoint,
-        access_key_id: config_source.s3_access_key_id,
-        secret_access_key: config_source.s3_secret_access_key
-      )
+      if config_source.s3_access_key_id
+        Aws::S3::Client.new(
+          region: config_source.s3_endpoint,
+          access_key_id: config_source.s3_access_key_id,
+          secret_access_key: config_source.s3_secret_access_key
+        )
+      else
+        Aws::S3::Client.new(
+          region: config_source.s3_endpoint,
+          profile: config_source.profile,
+        )
+      end
     end
 
     def self.enable_website_configuration(config_source)
