@@ -47,7 +47,7 @@ module ConfigureS3Website
                     rule_value.map { |redirect_rule_key, redirect_rule_value|
                       [
                         redirect_rule_key.to_sym,
-                        redirect_rule_key == "http_redirect_code" ?
+                        redirect_rule_key == "http_redirect_code" || redirect_rule_key == "http_error_code_returned_equals" ?
                           redirect_rule_value.to_s
                           #redirect_rule_value.to_s  # Permit numeric redirect values in the YAML config file. (The S3 API does not allow numeric redirect values, hence this block of code.)
                           :
