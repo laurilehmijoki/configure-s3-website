@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 2.2.0
+
+* Convert `http_error_code_returned_equals` value to string 
+
 ## 2.1.0
 
 * Add ability to use an AWS profile instead of explicit `s3_id` and `s3_secret`
