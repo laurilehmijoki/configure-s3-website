@@ -27,10 +27,14 @@ module ConfigureS3Website
           access_key_id: config_source.s3_access_key_id,
           secret_access_key: config_source.s3_secret_access_key
         )
-      else
+      elsif config_source.profile
         Aws::S3::Client.new(
           region: config_source.s3_endpoint,
           profile: config_source.profile,
+        )
+      else
+        Aws::S3::Client.new(
+          region: config_source.s3_endpoint,
         )
       end
     end

@@ -31,6 +31,12 @@ s3_secret: your-aws-secret-key
 s3_bucket: name-of-your-bucket
 ```
 
+**or** you may omit the `profile` and `s3_id` keys to use the system's default credentials.
+This requires [configuring AWS credentials](http://docs.aws.amazon.com/sdk-for-ruby/v2/developer-guide/setup-config.html#aws-ruby-sdk-setting-credentials).
+Options include [setting environment variables](http://docs.aws.amazon.com/sdk-for-ruby/v2/developer-guide/setup-config.html#aws-ruby-sdk-credentials-environment),
+using a [shared credentials file](http://docs.aws.amazon.com/sdk-for-ruby/v2/developer-guide/setup-config.html#aws-ruby-sdk-credentials-shared),
+or running an [EC2 instance with IAM roles](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingIAM.html#UsingIAMrolesWithAmazonEC2Instances).
+
 Save the file (as *config.yml*, for example). Now you are ready to go. Run the
 following command:
 

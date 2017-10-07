@@ -21,6 +21,14 @@ describe ConfigureS3Website::FileConfigSource do
     expect(config_source.description).to eq(yaml_file_path)
   end
 
+  it 'does not require s3_id, s3_secret or profile ' do
+    config_no_credentials = ConfigureS3Website::FileConfigSource.new('spec/sample_files/_config_file_no_credentials.yml')
+    expect(config_no_credentials.s3_access_key_id).to be_nil
+    expect(config_no_credentials.s3_secret_access_key).to be_nil
+    expect(config_no_credentials.profile).to be_nil
+    expect(config_no_credentials.s3_bucket_name).to eq('my-bucket')
+  end
+
   describe 'setter for cloudfront_distribution_id' do
     let(:original_yaml_contents) {
       %Q{
