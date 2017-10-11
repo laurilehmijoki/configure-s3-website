@@ -144,4 +144,19 @@ describe ConfigureS3Website::S3Client do
       ConfigureS3Website::S3Client.configure_website({config_source: config_source})
     end
   end
+
+  context 's3_id, s3_secret and profile not required' do
+    let(:config_source) {
+      ConfigureS3Website::FileConfigSource.new('spec/sample_files/_config_file_no_credentials.yml')
+    }
+
+    it 'calls the S3 API successfully' do
+      allow_any_instance_of(Aws::S3::Client).to receive(:put_bucket_website).with(
+        hash_including(
+          :bucket => "my-bucket"
+        )
+      )
+      ConfigureS3Website::S3Client.configure_website({config_source: config_source})
+    end
+  end
 end

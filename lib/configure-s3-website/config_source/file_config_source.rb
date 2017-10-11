@@ -82,11 +82,6 @@ module ConfigureS3Website
       if not config.keys.include?'s3_bucket'
         raise "File #{yaml_file_path} does not contain the required key 's3_bucket'"
       end
-
-      # check that either s3_id or profile is configured
-      if not (config.keys.include?'s3_id' or config.keys.include?'profile')
-        raise "File #{yaml_file_path} does not contain either 's3_id' or 'profile'"
-      end
     end
   end
 end
