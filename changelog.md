@@ -2,6 +2,10 @@
 
 This project uses [Semantic Versioning](http://semver.org).
 
+## 2.3.0
+
+* Add support for default credentials providers
+
 ## 2.2.0
 
 * Convert `http_error_code_returned_equals` value to string 
