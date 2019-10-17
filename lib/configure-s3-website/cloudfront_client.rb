@@ -42,7 +42,7 @@ module ConfigureS3Website
         puts 'Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]'
         user_answer = standard_input.gets
         print_headless_hint_and_exit if user_answer.nil?
-        case standard_input.gets.chomp
+        case user_answer.chomp
         when /(y|Y)/ then create_distribution options
         end
       end
