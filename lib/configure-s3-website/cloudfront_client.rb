@@ -40,7 +40,9 @@ module ConfigureS3Website
         # Do nothing
       else
         puts 'Do you want to deliver your website via CloudFront, Amazon’s CDN service? [y/N]'
-        case standard_input.gets.chomp
+        user_answer = standard_input.gets
+        print_headless_hint_and_exit if user_answer.nil?
+        case user_answer.chomp
         when /(y|Y)/ then create_distribution options
         end
       end
@@ -69,6 +71,11 @@ module ConfigureS3Website
       unless custom_distribution_config.empty?
         print_report_on_custom_distribution_config custom_distribution_config
       end
+    end
+
+    def self.print_headless_hint_and_exit
+      puts 'No response detected. If you are running the command in a non-interactive session, you can use s3_website cfg apply --headless'
+      exit 1
     end
 
     def self.print_report_on_custom_distribution_config(custom_distribution_config, left_padding = 4)
