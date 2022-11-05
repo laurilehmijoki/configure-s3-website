@@ -10,7 +10,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
 
   s.add_dependency 'deep_merge', '~> 1.0.0'
-  s.add_dependency 'aws-sdk', '~> 2'
+  s.add_dependency 'aws-sdk', '~> 3'
 
   s.add_development_dependency 'rspec', '~> 3'
   s.add_development_dependency 'rspec-expectations', '~> 3'
