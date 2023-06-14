@@ -87,6 +87,9 @@ module ConfigureS3Website
     end
 
     def self.make_bucket_readable_to_everyone(config_source)
+      s3(config_source).delete_public_access_block({
+        bucket: config_source.s3_bucket_name
+      })
       s3(config_source).put_bucket_policy({
         bucket: config_source.s3_bucket_name,
         policy: %|{
