@@ -1,3 +1,9 @@
+# Notice
+
+This project is a fork from Lauri Lehmijoki's [configure-s3-website](https://github.com/laurilehmijoki/configure-s3-website). The upstream project [is not actively maintained](https://github.com/laurilehmijoki/configure-s3-website/issues/26#issuecomment-1586534812).
+
+The original README follows.
+
 # Configure-s3-website
 
 [![Build Status](https://secure.travis-ci.org/laurilehmijoki/configure-s3-website.png)](http://travis-ci.org/laurilehmijoki/configure-s3-website)
