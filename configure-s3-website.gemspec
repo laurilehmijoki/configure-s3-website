@@ -1,12 +1,12 @@
 require File.join([File.dirname(__FILE__),'lib','configure-s3-website','version.rb'])
 spec = Gem::Specification.new do |s|
-  s.name = 'configure-s3-website'
+  s.name = 'configure-s3-website-ng'
   s.version = ConfigureS3Website::VERSION
-  s.author = 'Lauri Lehmijoki'
-  s.email = 'lauri.lehmijoki@iki.fi'
-  s.homepage = 'https://github.com/laurilehmijoki/configure-s3-website'
+  s.author = ['Ingelabs', 'Lauri Lehmijoki']
+  s.email = 'info@ingelabs.com'
+  s.homepage = 'https://github.com/ingelabs/configure-s3-website'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'Configure your AWS S3 bucket to function as a web site'
+  s.summary = 'Fork of configure-s3-website - Configure your AWS S3 bucket to function as a web site'
   s.bindir = 'bin'
 
   s.add_dependency 'deep_merge', '~> 1.0.0'

@@ -2,6 +2,8 @@
 
 This project is a fork from Lauri Lehmijoki's [configure-s3-website](https://github.com/laurilehmijoki/configure-s3-website). The upstream project [is not actively maintained](https://github.com/laurilehmijoki/configure-s3-website/issues/26#issuecomment-1586534812).
 
+The gem has been renamed to configure-s3-website-ng to allow uploading to RubyGems without collisions.
+
 The original README follows.
 
 # Configure-s3-website
